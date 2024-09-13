@@ -70,16 +70,11 @@ public class DeathHandler implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Block brokenBlock = event.getBlock();
-        String playerBreaking = event.getPlayer().getName();
 
         if (brokenBlock.getType() == Material.CHEST) {
             Chest brokenChest = (Chest) brokenBlock.getState();
             if (deathChests.containsKey(brokenChest)) {
                 if (brokenChest.getBlockInventory().isEmpty()) {
-                    if (!playerBreaking.equals(deathChests.get(brokenChest))) {
-                        Bukkit.getLogger().info("Hey, " + deathChests.get(brokenChest) + "'s chest has been broken by " + playerBreaking);
-                    }
-
                     deathChests.remove(brokenChest);
                 } else {
                     event.setCancelled(true);
