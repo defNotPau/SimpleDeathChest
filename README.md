@@ -1,5 +1,6 @@
 # **SimpleDeathChest**
 ### Simple, Efficient, and maybe reliable Minecraft plugin.
+![Java 21](https://img.shields.io/badge/language-Java%2021-9115ff.svg?style=flat-square)
 
 ## How does it work?
 1. When a player dies, a chest is created in their place.
@@ -40,3 +41,5 @@ Some of the initial commits were made at 2am, sorry about the language used.
 
 > [!CAUTION]
 > This is my first plugin made for minecraft, there might be errors, bugs, and maybe an occasional crash in you server, it has not been fully tested.
+
+[paper]: https://papermc.io
