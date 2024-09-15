@@ -15,6 +15,8 @@
   - A death chest cannot be broken unless it's empty
 - Am I too far down?
   - When died by the void in the end, the chest will still appear, but in y = 1
+ 
+Some of the initial commits were made at 2am, sorry about the language used.
 
 > [!CAUTION]
 > This is my first plugin made for minecraft, there might be errors, bugs, and maybe an occasional crash in you server, it has not been fully tested.
