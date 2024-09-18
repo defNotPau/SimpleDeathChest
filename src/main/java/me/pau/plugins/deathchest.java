@@ -3,17 +3,21 @@ import me.pau.plugins.handlers.DeathHandler;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class deathchest extends JavaPlugin {
+public class deathchest extends JavaPlugin {
+
+    private DeathHandler deathHandler;
 
     @Override
     public void onEnable() {
-        getLogger().info("I might be working");
+        deathHandler = new DeathHandler(this);
 
-        new DeathHandler(this);
+        this.getLogger().info("I might be working");
+        deathHandler.loadDeathChests();
     }
 
     @Override
     public void onDisable() {
-        getLogger().warning("I'm def NOT working rn");
+        deathHandler.saveDeathChests();
+        this.getLogger().warning("I'm def NOT working rn");
     }
 }
