@@ -100,7 +100,9 @@ public class DeathHandler implements Listener {
         }
 
         playerDrops.clear();
+
         deathChests.put(block, customInventory);
+        saveDeathChests();
     }
 
     @EventHandler
