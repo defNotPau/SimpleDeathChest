@@ -22,7 +22,7 @@ Don't worry, it's somewhat simple.
 
 Place the .jar file installed in the plugins folder inside your Minecraft server, and start it up!
 
-Now, if everything went well, you should get a the following messages:
+Now, if everything went well, you should get the following logs:
 
 ```
 [HH:MM:SS INFO]: [DeathChest] Enabling DeathChest v1.0-SNAPSHOT
