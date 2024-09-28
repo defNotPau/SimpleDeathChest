@@ -5,9 +5,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class deathchest extends JavaPlugin {
 
+    DeathHandler deathHandler;
+
     @Override
     public void onEnable() {
-        DeathHandler deathHandler = new DeathHandler(this);
+        deathHandler = new DeathHandler(this);
 
         this.getLogger().info("I might be working");
         deathHandler.loadDeathChests();
@@ -16,5 +18,7 @@ public class deathchest extends JavaPlugin {
     @Override
     public void onDisable() {
         this.getLogger().warning("I'm def NOT working rn");
+
+        deathHandler.saveDeathChests();
     }
 }

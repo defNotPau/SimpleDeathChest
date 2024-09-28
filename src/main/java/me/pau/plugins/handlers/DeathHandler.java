@@ -6,6 +6,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.Location;
@@ -13,8 +16,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -70,6 +71,8 @@ public class DeathHandler implements Listener {
 
             List<ItemStack> contents = (List<ItemStack>) config.get(locString);
             Inventory customInventory = Bukkit.createInventory(null, 45);
+
+            assert contents != null;
             customInventory.setContents(contents.toArray(new ItemStack[0]));
 
             deathChests.put(block, customInventory);
@@ -131,6 +134,19 @@ public class DeathHandler implements Listener {
                 if (deathChests.containsKey(chest)) {
                     Player player = event.getPlayer();
                     player.openInventory(deathChests.get(chest));
+                    event.setCancelled(true);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onBlockExplode(BlockExplodeEvent event) {
+        Block brokenBlock = event.getBlock();
+
+        if (brokenBlock.getType() == Material.CHEST) {
+            if (deathChests.containsKey(brokenBlock)) {
+                if (!deathChests.get(brokenBlock).isEmpty()) {
                     event.setCancelled(true);
                 }
             }
