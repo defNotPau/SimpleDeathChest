@@ -9,7 +9,7 @@
 
 ## Some interesting features:
 - All items fit in the chest! 
-  - As there's an special inventory that has 45 total slots, so no items will be lost!
+  - As there's a special inventory that has 45 total slots, so no items will be lost!
 - No chest farming over here... 
   - Death chests are not dropped when broken
 - Hold up, is it empty?
@@ -33,11 +33,20 @@ And once you stop the server...
 
 ```
 [HH:MM:SS WARN]: [DeathChest] I'm def NOT working rn
- 
-Some of the initial commits were made at 2am, sorry about the language used.
 ```
 
+## Non-Release nomenclature
+
+- The current year (ex. 2024, therefore 24)
+- <strong>w</strong>
+- Version number, referring to the revision on that year.
+- Alpha (a), beta (b), or pre-release (p)
+  - An example of all this could be: 24w01a (the first non-release version published) 
+
+
 #
+
+Some of the initial commits were made at 2am, sorry about the language used.
 
 > [!CAUTION]
 > This is my first plugin made for minecraft, there might be errors, bugs, and maybe an occasional crash in you server, it has not been fully tested.
