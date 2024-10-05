@@ -24,10 +24,10 @@ public class ChestInteractionHandler implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        deathChests.loadDeathChests();
         Block brokenBlock = event.getBlock();
 
         if (brokenBlock.getType() == Material.CHEST) {
+            deathChests.loadDeathChests();
             if (deathChests.containsKey(brokenBlock)) {
                 if (deathChests.get(brokenBlock).isEmpty()) {
                     event.setDropItems(false);
@@ -41,11 +41,10 @@ public class ChestInteractionHandler implements Listener {
 
     @EventHandler
     public void onChestOpen(PlayerInteractEvent event) {
-        deathChests.loadDeathChests();
-
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Block clickedBlock = event.getClickedBlock();
             if (clickedBlock != null && clickedBlock.getType() == Material.CHEST) {
+                deathChests.loadDeathChests();
                 Block chest = clickedBlock.getLocation().getBlock();
 
                 if (deathChests.containsKey(chest)) {
@@ -59,10 +58,10 @@ public class ChestInteractionHandler implements Listener {
 
     @EventHandler
     public void onBlockExplode(BlockExplodeEvent event) {
-        deathChests.loadDeathChests();
         Block brokenBlock = event.getBlock();
 
         if (brokenBlock.getType() == Material.CHEST) {
+            deathChests.loadDeathChests();
             if (deathChests.containsKey(brokenBlock)) {
                 if (!deathChests.get(brokenBlock).isEmpty()) {
                     event.setCancelled(true);
