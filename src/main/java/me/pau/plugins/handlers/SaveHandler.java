@@ -40,6 +40,11 @@ public class SaveHandler {
         return deathChests.containsKey(key);
     }
 
+    public boolean containsValue(Inventory value) {
+        plugin.getLogger().info("containsValue() Executed");
+        return deathChests.containsValue(value);
+    }
+
     public void remove(Block key) {
         plugin.getLogger().info("remove() Executed");
         deathChests.remove(key);

@@ -11,6 +11,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class ChestInteractionHandler implements Listener {
@@ -57,17 +59,24 @@ public class ChestInteractionHandler implements Listener {
     }
 
     @EventHandler
-    public void onBlockExplode(BlockExplodeEvent event) {
-        Block brokenBlock = event.getBlock();
+    public void onChestClose(InventoryCloseEvent event) {
+        deathChests.saveDeathChests();
+    }
 
-        if (brokenBlock.getType() == Material.CHEST) {
-            deathChests.loadDeathChests();
-            if (deathChests.containsKey(brokenBlock)) {
-                if (!deathChests.get(brokenBlock).isEmpty()) {
-                    event.setCancelled(true);
-                }
-            }
-        }
+    @EventHandler
+    public void onBlockExplode(BlockExplodeEvent event) {
+        deathChests.loadDeathChests();
+        event.blockList().removeIf(block ->
+                block.getType() == Material.CHEST && deathChests.containsKey(block)
+        );
+    }
+
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent event) {
+        deathChests.loadDeathChests();
+        event.blockList().removeIf(block ->
+                block.getType() == Material.CHEST && deathChests.containsKey(block)
+        );
     }
 }
 
