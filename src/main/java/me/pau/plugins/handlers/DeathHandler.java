@@ -2,9 +2,11 @@ package me.pau.plugins.handlers;
 import me.pau.plugins.deathchest;
 
 import org.bukkit.World;
+import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
@@ -84,16 +86,23 @@ public class DeathHandler implements Listener {
         Player player = event.getPlayer();
         Location chestLocation;
 
+        List<ItemStack> playerDrops = event.getDrops();
+        if (playerDrops.isEmpty()) {
+            return;
+        }
+
+        Inventory customInventory = Bukkit.createInventory(null, 45, "§5Death §5chest");
+
         if (player.getWorld().getEnvironment() == World.Environment.THE_END && player.getY() <= 0) {
             chestLocation = new Location(player.getWorld(), player.getX(), 1, player.getZ());
         } else {
             chestLocation = event.getPlayer().getLocation();
         }
 
-        List<ItemStack> playerDrops = event.getDrops();
-        Inventory customInventory = Bukkit.createInventory(null, 45, "§5Death §5chest");
-
         Block block = chestLocation.getBlock();
+        if (block.getType() == Material.CHEST) {
+            block = block.getRelative(BlockFace.UP);
+        }
 
         block.setType(Material.CHEST);
         block.getState().update(true);
@@ -142,14 +151,15 @@ public class DeathHandler implements Listener {
 
     @EventHandler
     public void onBlockExplode(BlockExplodeEvent event) {
-        Block brokenBlock = event.getBlock();
+        event.blockList().removeIf(block ->
+                block.getType() == Material.CHEST && deathChests.containsKey(block)
+        );
+    }
 
-        if (brokenBlock.getType() == Material.CHEST) {
-            if (deathChests.containsKey(brokenBlock)) {
-                if (!deathChests.get(brokenBlock).isEmpty()) {
-                    event.setCancelled(true);
-                }
-            }
-        }
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent event) {
+        event.blockList().removeIf(block ->
+                block.getType() == Material.CHEST && deathChests.containsKey(block)
+        );
     }
 }
