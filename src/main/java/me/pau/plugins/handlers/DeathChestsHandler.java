@@ -16,41 +16,54 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-public class SaveHandler {
+public class DeathChestsHandler {
     private final JavaPlugin plugin;
     private HashMap<Block, Inventory> deathChests = new HashMap<>();
+    
+    Utils utils;
 
-    public SaveHandler(deathchest plugin) {
+    public DeathChestsHandler(deathchest plugin) {
         this.plugin = plugin;
+        utils = new Utils(plugin);
     }
 
     public void put(Block block, Inventory inventory) {
-        plugin.getLogger().info("put() Executed");
-        plugin.getLogger().info(inventory.toString());
+        utils.infoPrint("put() Executed");
+        utils.infoPrint(inventory.toString());
         deathChests.put(block, inventory);
     }
 
     public Inventory get(Block key) {
-        plugin.getLogger().info("get() Executed");
+        utils.infoPrint("get(block) Executed");
         return deathChests.get(key);
     }
 
+    public Block get(Inventory value) {
+        utils.infoPrint("get(inventory) Executed");
+        for (Block i : deathChests.keySet()) {
+            if (deathChests.get(i) == value) {
+                return i;
+            }
+        }
+        return null;
+    }
+
     public boolean containsKey(Block key) {
-        plugin.getLogger().info("containsKey() Executed");
+        utils.infoPrint("containsKey() Executed");
         return deathChests.containsKey(key);
     }
 
     public boolean containsValue(Inventory value) {
-        plugin.getLogger().info("containsValue() Executed");
+        utils.infoPrint("containsValue() Executed");
         return deathChests.containsValue(value);
     }
 
     public void remove(Block key) {
-        plugin.getLogger().info("remove() Executed");
+        utils.infoPrint("remove() Executed");
         deathChests.remove(key);
     }
 
-    public void saveDeathChests() {
+    public void save() {
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
@@ -64,13 +77,13 @@ public class SaveHandler {
 
         try {
             config.save(file);
-            plugin.getLogger().info("Saving Death Chests");
+            utils.infoPrint("Saving Death Chests");
         } catch (IOException e) {
-            plugin.getLogger().info(e.getLocalizedMessage());
+            utils.infoPrint(e.getLocalizedMessage());
         }
     }
 
-    public void loadDeathChests() {
+    public void load() {
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
 
         if (!file.exists()) return;
@@ -96,7 +109,7 @@ public class SaveHandler {
             deathChests.put(block, customInventory);
         }
 
-        plugin.getLogger().info("Loading Death Chests");
+        utils.infoPrint("Loading Death Chests");
     }
 }
 

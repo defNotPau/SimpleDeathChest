@@ -1,6 +1,5 @@
 package me.pau.plugins.handlers;
 import me.pau.plugins.deathchest;
-import me.pau.plugins.handlers.SaveHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,12 +15,13 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class ChestInteractionHandler implements Listener {
-    SaveHandler deathChests;
+    DeathChestsHandler deathChests;
 
     public ChestInteractionHandler(deathchest plugin) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
 
-        deathChests = new SaveHandler(plugin);
+        deathChests = new DeathChestsHandler(plugin);
+        deathChests.load();
     }
 
     @EventHandler
@@ -29,7 +29,6 @@ public class ChestInteractionHandler implements Listener {
         Block brokenBlock = event.getBlock();
 
         if (brokenBlock.getType() == Material.CHEST) {
-            deathChests.loadDeathChests();
             if (deathChests.containsKey(brokenBlock)) {
                 if (deathChests.get(brokenBlock).isEmpty()) {
                     event.setDropItems(false);
@@ -46,7 +45,6 @@ public class ChestInteractionHandler implements Listener {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Block clickedBlock = event.getClickedBlock();
             if (clickedBlock != null && clickedBlock.getType() == Material.CHEST) {
-                deathChests.loadDeathChests();
                 Block chest = clickedBlock.getLocation().getBlock();
 
                 if (deathChests.containsKey(chest)) {
@@ -60,12 +58,20 @@ public class ChestInteractionHandler implements Listener {
 
     @EventHandler
     public void onChestClose(InventoryCloseEvent event) {
-        deathChests.saveDeathChests();
+        deathChests.save();
+        if (deathChests.containsValue(event.getInventory())) {
+            if (event.getInventory().isEmpty()) {
+                Block block = deathChests.get(event.getInventory());
+                deathChests.remove(block);
+
+                block.setType(Material.AIR);
+                deathChests.save();
+            }
+        }
     }
 
     @EventHandler
     public void onBlockExplode(BlockExplodeEvent event) {
-        deathChests.loadDeathChests();
         event.blockList().removeIf(block ->
                 block.getType() == Material.CHEST && deathChests.containsKey(block)
         );
@@ -73,7 +79,6 @@ public class ChestInteractionHandler implements Listener {
 
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
-        deathChests.loadDeathChests();
         event.blockList().removeIf(block ->
                 block.getType() == Material.CHEST && deathChests.containsKey(block)
         );

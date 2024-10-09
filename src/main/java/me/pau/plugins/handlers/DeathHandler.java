@@ -1,6 +1,5 @@
 package me.pau.plugins.handlers;
 import me.pau.plugins.deathchest;
-import me.pau.plugins.handlers.SaveHandler;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,12 +16,12 @@ import java.util.List;
 
 public class DeathHandler implements Listener {
 
-    SaveHandler deathChests;
+    DeathChestsHandler deathChests;
 
     public DeathHandler(deathchest plugin) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
 
-        deathChests = new SaveHandler(plugin);
+        deathChests = new DeathChestsHandler(plugin);
     }
 
     @EventHandler
@@ -51,7 +50,7 @@ public class DeathHandler implements Listener {
         playerDrops.clear();
 
         deathChests.put(block, customInventory);
-        deathChests.saveDeathChests();
+        deathChests.save();
     }
 }
 
