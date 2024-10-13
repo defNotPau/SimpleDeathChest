@@ -29,18 +29,14 @@ public class DeathChestsHandler {
     }
 
     public void put(Block block, Inventory inventory) {
-        utils.infoPrint("put() Executed");
-        utils.infoPrint(inventory.toString());
         deathChests.put(block, inventory);
     }
 
     public Inventory get(Block key) {
-        utils.infoPrint("get(block) Executed");
         return deathChests.get(key);
     }
 
     public Block get(Inventory value) {
-        utils.infoPrint("get(inventory) Executed");
         for (Block i : deathChests.keySet()) {
             if (deathChests.get(i) == value) {
                 return i;
@@ -50,23 +46,18 @@ public class DeathChestsHandler {
     }
 
     public boolean containsKey(Block key) {
-        utils.infoPrint("containsKey() Executed");
         return deathChests.containsKey(key);
     }
 
     public boolean containsValue(Inventory value) {
-        utils.infoPrint("containsValue() Executed");
         return deathChests.containsValue(value);
     }
 
     public void remove(Block key) {
-        utils.infoPrint("remove() Executed");
         deathChests.remove(key);
-        utils.infoPrint(Integer.toString(deathChests.size()));
     }
 
     public Set<Block> keySet() {
-        utils.infoPrint("keySet() Executed");
         return deathChests.keySet();
     }
 
@@ -80,16 +71,8 @@ public class DeathChestsHandler {
     }
 
     public void save() {
-        utils.infoPrint(Integer.toString(deathChests.size()));
-
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
-
-        FileConfiguration emptyConfig = new YamlConfiguration();
-        try {
-            emptyConfig.save(file);
-        } catch (IOException e) {
-            utils.warnPrint(e.toString());
-        }
+        deleteFile(file);
 
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
@@ -103,7 +86,6 @@ public class DeathChestsHandler {
 
         try {
             config.save(file);
-            utils.infoPrint("Saving Death Chests");
         } catch (IOException e) {
             utils.warnPrint(e.toString());
         }
@@ -135,7 +117,6 @@ public class DeathChestsHandler {
         }
 
         deleteFile(file);
-        utils.infoPrint("Loaded Death Chests");
     }
 }
 

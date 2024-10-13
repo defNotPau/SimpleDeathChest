@@ -60,9 +60,6 @@ public class ChestInteractionHandler implements Listener {
                 deathChests.remove(block);
 
                 block.setType(Material.AIR);
-                utils.infoPrint("Removed chest at " + block.getLocation());
-            } else {
-                utils.infoPrint("Chest not empty, keeping it.");
             }
         }
     }
