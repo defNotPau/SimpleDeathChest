@@ -1,5 +1,5 @@
 package me.pau.plugins.handlers;
-import me.pau.plugins.deathchest;
+import me.pau.plugins.DeathChest;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,26 +16,22 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class ChestInteractionHandler implements Listener {
     DeathChestsHandler deathChests;
+    Utils utils;
 
-    public ChestInteractionHandler(deathchest plugin) {
+    public ChestInteractionHandler(DeathChest plugin, DeathChestsHandler deathChests, Utils utils) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
 
-        deathChests = new DeathChestsHandler(plugin);
-        deathChests.load();
+        this.deathChests = deathChests;
+        this.utils = utils;
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Block brokenBlock = event.getBlock();
 
-        if (brokenBlock.getType() == Material.CHEST) {
-            if (deathChests.containsKey(brokenBlock)) {
-                if (deathChests.get(brokenBlock).isEmpty()) {
-                    event.setDropItems(false);
-                    deathChests.remove(brokenBlock);
-                } else {
-                    event.setCancelled(true);
-                }
+        if (deathChests.containsKey(brokenBlock)) {
+            if (!deathChests.get(brokenBlock).isEmpty()) {
+                event.setCancelled(true);
             }
         }
     }
@@ -58,14 +54,15 @@ public class ChestInteractionHandler implements Listener {
 
     @EventHandler
     public void onChestClose(InventoryCloseEvent event) {
-        deathChests.save();
         if (deathChests.containsValue(event.getInventory())) {
             if (event.getInventory().isEmpty()) {
                 Block block = deathChests.get(event.getInventory());
                 deathChests.remove(block);
 
                 block.setType(Material.AIR);
-                deathChests.save();
+                utils.infoPrint("Removed chest at " + block.getLocation());
+            } else {
+                utils.infoPrint("Chest not empty, keeping it.");
             }
         }
     }

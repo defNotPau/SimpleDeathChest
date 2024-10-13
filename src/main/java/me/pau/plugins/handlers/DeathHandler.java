@@ -1,6 +1,7 @@
 package me.pau.plugins.handlers;
-import me.pau.plugins.deathchest;
+import me.pau.plugins.DeathChest;
 
+import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -18,10 +19,9 @@ public class DeathHandler implements Listener {
 
     DeathChestsHandler deathChests;
 
-    public DeathHandler(deathchest plugin) {
+    public DeathHandler(DeathChest plugin, DeathChestsHandler deathChests) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
-
-        deathChests = new DeathChestsHandler(plugin);
+        this.deathChests = deathChests;
     }
 
     @EventHandler
@@ -29,16 +29,19 @@ public class DeathHandler implements Listener {
         Player player = event.getPlayer();
         Location chestLocation;
 
+        List<ItemStack> playerDrops = event.getDrops();
+        if (playerDrops.isEmpty()) { return; }
+
+        Inventory customInventory = Bukkit.createInventory(null, 45);
+
         if (player.getY() <= 0) {
             chestLocation = new Location(player.getWorld(), player.getX(), 1, player.getZ());
         } else {
             chestLocation = event.getPlayer().getLocation();
         }
 
-        List<ItemStack> playerDrops = event.getDrops();
-        Inventory customInventory = Bukkit.createInventory(null, 45);
-
         Block block = chestLocation.getBlock();
+        if (block.getType() == Material.CHEST) { block = block.getRelative(BlockFace.UP); }
 
         block.setType(Material.CHEST);
         block.getState().update(true);

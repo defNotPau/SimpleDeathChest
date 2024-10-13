@@ -1,12 +1,12 @@
 package me.pau.plugins.handlers;
 
-import me.pau.plugins.deathchest;
+import me.pau.plugins.DeathChest;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Utils {
     private final JavaPlugin plugin;
 
-    public Utils(deathchest plugin) {
+    public Utils(DeathChest plugin) {
         this.plugin = plugin;
     }
 

@@ -1,42 +1,27 @@
-/*
-
 package me.pau.plugins.handlers;
-import me.pau.plugins.deathchest;
-import me.pau.plugins.handlers.SaveHandler;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 
 public class RestoreHandler {
-    private final JavaPlugin plugin;
-    public HashMap<Block, Inventory> deathChests = new HashMap<>();
+    Utils utils;
+    DeathChestsHandler deathChests;
 
-    SaveHandler saveHandler;
-
-    public RestoreHandler(deathchest plugin) {
-        this.plugin = plugin;
-
-        saveHandler = new SaveHandler(plugin);
-        saveHandler.loadDeathChests();
+    public RestoreHandler(Utils utils, DeathChestsHandler deathChests) {
+        this.utils = utils;
+        this.deathChests = deathChests;
     }
 
     public void restore() {
         for (Block chest : deathChests.keySet()) {
-
+            if (chest != null && chest.getLocation().getChunk().isLoaded()) {
+                chest.setType(Material.CHEST);
+            } else {
+                utils.warnPrint("Skipped restoring chest at unloaded chunk: " + chest.getLocation());
+            }
         }
+
+        utils.infoPrint("Death Chest restore complete");
     }
 }
 
-*/

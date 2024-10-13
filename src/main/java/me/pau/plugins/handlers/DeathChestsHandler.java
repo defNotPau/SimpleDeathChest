@@ -1,6 +1,6 @@
 package me.pau.plugins.handlers;
 
-import me.pau.plugins.deathchest;
+import me.pau.plugins.DeathChest;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class DeathChestsHandler {
     private final JavaPlugin plugin;
@@ -22,7 +23,7 @@ public class DeathChestsHandler {
     
     Utils utils;
 
-    public DeathChestsHandler(deathchest plugin) {
+    public DeathChestsHandler(DeathChest plugin) {
         this.plugin = plugin;
         utils = new Utils(plugin);
     }
@@ -61,10 +62,35 @@ public class DeathChestsHandler {
     public void remove(Block key) {
         utils.infoPrint("remove() Executed");
         deathChests.remove(key);
+        utils.infoPrint(Integer.toString(deathChests.size()));
+    }
+
+    public Set<Block> keySet() {
+        utils.infoPrint("keySet() Executed");
+        return deathChests.keySet();
+    }
+
+    private void deleteFile(File file) {
+        FileConfiguration emptyConfig = new YamlConfiguration();
+        try {
+            emptyConfig.save(file);
+        } catch (IOException e) {
+            utils.warnPrint(e.toString());
+        }
     }
 
     public void save() {
+        utils.infoPrint(Integer.toString(deathChests.size()));
+
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
+
+        FileConfiguration emptyConfig = new YamlConfiguration();
+        try {
+            emptyConfig.save(file);
+        } catch (IOException e) {
+            utils.warnPrint(e.toString());
+        }
+
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
         for (Block block : deathChests.keySet()) {
@@ -79,13 +105,12 @@ public class DeathChestsHandler {
             config.save(file);
             utils.infoPrint("Saving Death Chests");
         } catch (IOException e) {
-            utils.infoPrint(e.getLocalizedMessage());
+            utils.warnPrint(e.toString());
         }
     }
 
     public void load() {
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
-
         if (!file.exists()) return;
 
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
@@ -109,7 +134,8 @@ public class DeathChestsHandler {
             deathChests.put(block, customInventory);
         }
 
-        utils.infoPrint("Loading Death Chests");
+        deleteFile(file);
+        utils.infoPrint("Loaded Death Chests");
     }
 }
 
