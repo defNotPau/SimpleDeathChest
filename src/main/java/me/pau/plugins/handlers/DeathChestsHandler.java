@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class DeathChestsHandler {
     private final JavaPlugin plugin;
-    private HashMap<Block, Inventory> deathChests = new HashMap<>();
+    private final HashMap<Block, Inventory> deathChests = new HashMap<>();
     
     Utils utils;
 
@@ -28,9 +28,7 @@ public class DeathChestsHandler {
         utils = new Utils(plugin);
     }
 
-    public void put(Block block, Inventory inventory) {
-        deathChests.put(block, inventory);
-    }
+    public void put(Block block, Inventory inventory) { deathChests.put(block, inventory); }
 
     public Inventory get(Block key) {
         return deathChests.get(key);
@@ -53,9 +51,7 @@ public class DeathChestsHandler {
         return deathChests.containsValue(value);
     }
 
-    public void remove(Block key) {
-        deathChests.remove(key);
-    }
+    public void remove(Block key) { deathChests.remove(key); }
 
     public Set<Block> keySet() {
         return deathChests.keySet();
