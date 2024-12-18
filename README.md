@@ -1,6 +1,6 @@
 # **SimpleDeathChest**
 ### Simple, Efficient, and maybe reliable Minecraft plugin.
-![Java 21](https://img.shields.io/badge/language-Java%2021-9115ff.svg?style=flat-square)
+![Java 17](https://img.shields.io/badge/language-java_17-orange)
 
 ## How does it work?
 1. When a player dies, a chest is created in their place.
@@ -34,18 +34,6 @@ And once you stop the server...
 ```
 [HH:MM:SS WARN]: [DeathChest] I'm def NOT working rn
 ```
-
-## Non-Release nomenclature
-
-- The current year (ex. 2024, therefore 24)
-- <strong>w</strong>
-- Version number, referring to the revision on that year.
-- Alpha (a), beta (b), or pre-release (p)
-  - An example of all this could be: 24w01a (the first non-release version published) 
-
-
-#
-
 Some of the initial commits were made at 2am, sorry about the language used.
 
 > [!CAUTION]
