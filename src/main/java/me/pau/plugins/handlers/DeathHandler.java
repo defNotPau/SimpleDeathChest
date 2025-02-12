@@ -52,7 +52,7 @@ public class DeathHandler implements Listener {
 
         playerDrops.clear();
 
-        deathChests.put(block, customInventory);
+        deathChests.put(block, customInventory, player);
         deathChests.save();
     }
 }

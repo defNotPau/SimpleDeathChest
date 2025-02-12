@@ -1,6 +1,8 @@
 package me.pau.plugins;
+import me.pau.plugins.commands.CoordsCommand;
 import me.pau.plugins.handlers.*;
 
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DeathChest extends JavaPlugin {
@@ -25,6 +27,13 @@ public class DeathChest extends JavaPlugin {
         restoreHandler.restore();
 
         utils.infoPrint("I might be working");
+
+        PluginCommand coordsCommand = getCommand("coords");
+        if (coordsCommand != null) {
+            coordsCommand.setExecutor(new CoordsCommand(saveHandler));
+        } else {
+            utils.severePrint("Failed to register /coords command. Check your plugin.yml or Paper configuration.");
+        }
     }
 
     @Override

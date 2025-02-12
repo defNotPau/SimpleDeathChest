@@ -17,4 +17,7 @@ public class Utils {
     public void warnPrint(String msg) {
         plugin.getLogger().warning(msg);
     }
+    public void severePrint(String msg) {
+        plugin.getLogger().severe(msg);
+    }
 }

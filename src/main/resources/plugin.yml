@@ -1,0 +1,9 @@
+name: DeathChest
+version: '1.0-SNAPSHOT'
+main: me.pau.plugins.DeathChest
+api-version: '1.21'
+commands:
+  coords:
+    usage: /coords
+    description: Logs the player's coordinates.
+    permission: coordinatesplugin.coords

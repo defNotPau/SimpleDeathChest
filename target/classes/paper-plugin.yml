@@ -1,4 +1,0 @@
-name: DeathChest
-version: '1.0-SNAPSHOT'
-main: me.pau.plugins.deathchest
-api-version: '1.21'

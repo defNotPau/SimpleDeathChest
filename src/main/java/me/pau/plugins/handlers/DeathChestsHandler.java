@@ -7,6 +7,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,7 +21,8 @@ import java.util.Set;
 public class DeathChestsHandler {
     private final JavaPlugin plugin;
     private HashMap<Block, Inventory> deathChests = new HashMap<>();
-    
+    private HashMap<Location, Player> lastestDeathLocation = new HashMap<>();
+
     Utils utils;
 
     public DeathChestsHandler(DeathChest plugin) {
@@ -28,10 +30,11 @@ public class DeathChestsHandler {
         utils = new Utils(plugin);
     }
 
-    public void put(Block block, Inventory inventory) {
+    public void put(Block block, Inventory inventory, Player player) {
         utils.infoPrint("put() Executed");
         utils.infoPrint(inventory.toString());
         deathChests.put(block, inventory);
+        lastestDeathLocation.put(block.getLocation(), player);
     }
 
     public Inventory get(Block key) {
@@ -43,6 +46,16 @@ public class DeathChestsHandler {
         utils.infoPrint("get(inventory) Executed");
         for (Block i : deathChests.keySet()) {
             if (deathChests.get(i) == value) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public Location get(Player value) {
+        utils.infoPrint("get(inventory) Executed");
+        for (Location i : lastestDeathLocation.keySet()) {
+            if (lastestDeathLocation.get(i) == value) {
                 return i;
             }
         }
@@ -62,6 +75,7 @@ public class DeathChestsHandler {
     public void remove(Block key) {
         utils.infoPrint("remove() Executed");
         deathChests.remove(key);
+        lastestDeathLocation.remove(key.getLocation());
         utils.infoPrint(Integer.toString(deathChests.size()));
     }
 

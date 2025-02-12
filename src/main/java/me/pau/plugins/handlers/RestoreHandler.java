@@ -17,6 +17,7 @@ public class RestoreHandler {
             if (chest != null && chest.getLocation().getChunk().isLoaded()) {
                 chest.setType(Material.CHEST);
             } else {
+                assert chest != null;
                 utils.warnPrint("Skipped restoring chest at unloaded chunk: " + chest.getLocation());
             }
         }

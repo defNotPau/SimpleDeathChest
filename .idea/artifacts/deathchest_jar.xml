@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="deathchest:jar">
-    <output-path>D:/PaperTestingServer/plugins</output-path>
+    <output-path>E:/testingMcServers/1.21.4/plugins</output-path>
     <root id="archive" name="deathchest.jar">
       <element id="module-output" name="deathchest" />
     </root>
