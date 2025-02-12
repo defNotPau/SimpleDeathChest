@@ -15,7 +15,7 @@
 - Hold up, is it empty?
   - A death chest cannot be broken unless it's empty
 - Am I too far down?
-  - When died by the void in the end, the chest will still appear, but in y = 1
+  - When dies by the void in the end, the chest will still appear, but in y = 1
 
  ## Usage:
 Don't worry, it's somewhat simple.
@@ -34,15 +34,6 @@ And once you stop the server...
 ```
 [HH:MM:SS WARN]: [DeathChest] I'm def NOT working rn
 ```
-
-## Non-Release nomenclature
-
-- The current year (ex. 2024, therefore 24)
-- <strong>w</strong>
-- Version number, referring to the revision on that year.
-- Alpha (a), beta (b), or pre-release (p)
-  - An example of all this could be: 24w01a (the first non-release version published) 
-
 
 #
 
