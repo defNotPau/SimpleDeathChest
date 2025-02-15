@@ -14,9 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class DeathChestsHandler {
     private final JavaPlugin plugin;
@@ -34,6 +32,13 @@ public class DeathChestsHandler {
         utils.infoPrint("put() Executed");
         utils.infoPrint(inventory.toString());
         deathChests.put(block, inventory);
+
+
+        if (lastestDeathLocation.containsValue(player)) for (Location i : lastestDeathLocation.keySet()) {
+            if (lastestDeathLocation.get(i) == player) {
+                lastestDeathLocation.remove(i);
+            }
+        }
         lastestDeathLocation.put(block.getLocation(), player);
     }
 
@@ -97,15 +102,19 @@ public class DeathChestsHandler {
         utils.infoPrint(Integer.toString(deathChests.size()));
 
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
+        File latest = new File(plugin.getDataFolder(), "latestDeaths.yml");
 
         FileConfiguration emptyConfig = new YamlConfiguration();
+        FileConfiguration emptyConfig2 = new YamlConfiguration();
         try {
             emptyConfig.save(file);
+            emptyConfig2.save(latest);
         } catch (IOException e) {
             utils.warnPrint(e.toString());
         }
 
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+        FileConfiguration latestConfig = YamlConfiguration.loadConfiguration(latest);
 
         for (Block block : deathChests.keySet()) {
             String locString = block.getLocation().getWorld().getName() + "," +
@@ -115,8 +124,16 @@ public class DeathChestsHandler {
             config.set(locString, inventory.getContents());
         }
 
+        for (Location location : lastestDeathLocation.keySet()) {
+            String locString = location.getX() + "," + location.getY() + "," + location.getZ();
+            Player plr = lastestDeathLocation.get(location);
+
+            latestConfig.set(locString, plr.getName());
+        }
+
         try {
             config.save(file);
+            latestConfig.save(latest);
             utils.infoPrint("Saving Death Chests");
         } catch (IOException e) {
             utils.warnPrint(e.toString());
@@ -125,9 +142,11 @@ public class DeathChestsHandler {
 
     public void load() {
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
-        if (!file.exists()) return;
+        File latest = new File(plugin.getDataFolder(), "latestDeaths.yml");
+        if (!file.exists() || !latest.exists()) return;
 
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+        FileConfiguration latestConfig = YamlConfiguration.loadConfiguration(latest);
 
         for (String locString : config.getKeys(false)) {
             String[] locParts = locString.split(",");
@@ -148,7 +167,22 @@ public class DeathChestsHandler {
             deathChests.put(block, customInventory);
         }
 
+        for (String locString : latestConfig.getKeys(false)) {
+            String[] locParts = locString.split(",");
+            int x = Integer.parseInt(locParts[0]);
+            int y = Integer.parseInt(locParts[1]);
+            int z = Integer.parseInt(locParts[2]);
+            Location location = new Location(null, x, y, z);
+
+            Player player = Bukkit.getPlayer(locParts[3]);
+
+            assert player != null;
+            lastestDeathLocation.put(location, player);
+        }
+
+
         deleteFile(file);
+        deleteFile(latest);
         utils.infoPrint("Loaded Death Chests");
     }
 }

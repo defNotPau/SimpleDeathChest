@@ -40,8 +40,7 @@ public class CoordsCommand implements CommandExecutor {
 
         Component staticComponent = Component.text("Your latest chest's coordinates are: ", NamedTextColor.GRAY);
         Component copyableComponent = Component.text((x + ", " + y + ", " + z), NamedTextColor.GREEN, TextDecoration.UNDERLINED)
-                .clickEvent(ClickEvent.copyToClipboard(x + " " + y + " " + z)); // Add the copy-to-clipboard action
-
+                .clickEvent(ClickEvent.copyToClipboard(x + " " + y + " " + z));
 
         player.sendMessage(staticComponent.append(copyableComponent));
         return true;
