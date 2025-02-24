@@ -24,7 +24,7 @@ Place the .jar file installed in the plugins folder inside your Minecraft server
 Now, if everything went well, you should get a the following messages:
 
 ```
-[HH:MM:SS INFO]: [DeathChest] Enabling DeathChest (current plugin version)
+[HH:MM:SS INFO]: [DeathChest] Enabling DeathChest v(plugin version)
 [HH:MM:SS INFO]: [DeathChest] Death Chest restore complete
 [HH:MM:SS INFO]: [DeathChest] I might be working
 ```
@@ -32,7 +32,7 @@ Now, if everything went well, you should get a the following messages:
 And once you stop the server...
 
 ```
-[HH:MM:SS INFO]: [DeathChest] Disabling DeathChest (current plugin version)
+[HH:MM:SS INFO]: [DeathChest] Disabling DeathChest v(plugin version)
 [HH:MM:SS WARN]: [DeathChest] I'm def NOT working rn
 ```
 
