@@ -1,6 +1,5 @@
 # **SimpleDeathChest**
-### Simple, Efficient, and maybe reliable Minecraft plugin.
-![Java 21](https://img.shields.io/badge/language-Java%2021-9115ff.svg?style=flat-square)
+### Simple, Efficient, and maybe reliable Paper plugin.
 
 ## How does it work?
 1. When a player dies, a chest is created in their place.
@@ -9,29 +8,31 @@
 
 ## Some interesting features:
 - All items fit in the chest! 
-  - As there's a special inventory that has 45 total slots, so no items will be lost!
+  - As there's an special inventory that has 45 total slots, no items will be lost!
 - No chest farming over here... 
   - Death chests are not dropped when broken
 - Hold up, is it empty?
   - A death chest cannot be broken unless it's empty
 - Am I too far down?
-  - When dies by the void in the end, the chest will still appear, but in the y border
+  - If for some reason a player dies because of the void, the chest will still appear, in the last layer of layer (Why would they break bedrock to kill themselves?) or if in the end in the layer before the void
 
- ## Usage:
+## Usage:
 Don't worry, it's somewhat simple.
 
 Place the .jar file installed in the plugins folder inside your Minecraft server, and start it up!
 
-Now, if everything went well, you should get the following logs:
+Now, if everything went well, you should get a the following messages:
 
 ```
-[HH:MM:SS INFO]: [DeathChest] Enabling DeathChest v1.0-SNAPSHOT
+[HH:MM:SS INFO]: [DeathChest] Enabling DeathChest (current plugin version)
+[HH:MM:SS INFO]: [DeathChest] Death Chest restore complete
 [HH:MM:SS INFO]: [DeathChest] I might be working
 ```
 
 And once you stop the server...
 
 ```
+[HH:MM:SS INFO]: [DeathChest] Disabling DeathChest (current plugin version)
 [HH:MM:SS WARN]: [DeathChest] I'm def NOT working rn
 ```
 
