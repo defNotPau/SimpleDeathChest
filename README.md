@@ -15,7 +15,7 @@
 - Hold up, is it empty?
   - A death chest cannot be broken unless it's empty
 - Am I too far down?
-  - When dies by the void in the end, the chest will still appear, but in y = 1
+  - When dies by the void in the end, the chest will still appear, but in the y border
 
  ## Usage:
 Don't worry, it's somewhat simple.
