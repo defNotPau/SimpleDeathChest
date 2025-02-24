@@ -22,13 +22,13 @@ public class CoordsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Component.text("YOU'RE NOT A PLAYER >:(", NamedTextColor.RED));
+            sender.sendMessage(Component.text("YOU'RE NOT A PLAYER >:(", NamedTextColor.DARK_AQUA));
             return true;
         }
 
         Player player = (Player) sender;
 
-        Location location = deathChests.get(player);
+        Location location = deathChests.get(player.getName());
         if (location == null) {
             player.sendMessage(Component.text("You haven't died yet :D"));
             return true;
@@ -38,8 +38,8 @@ public class CoordsCommand implements CommandExecutor {
         int z = location.getBlockZ();
         int y = location.getBlockY();
 
-        Component staticComponent = Component.text("Your latest chest's coordinates are: ", NamedTextColor.GRAY);
-        Component copyableComponent = Component.text((x + ", " + y + ", " + z), NamedTextColor.GREEN, TextDecoration.UNDERLINED)
+        Component staticComponent = Component.text("Your latest chest's coordinates are: ", NamedTextColor.BLUE);
+        Component copyableComponent = Component.text((x + ", " + y + ", " + z), NamedTextColor.DARK_BLUE, TextDecoration.UNDERLINED)
                 .clickEvent(ClickEvent.copyToClipboard(x + " " + y + " " + z));
 
         player.sendMessage(staticComponent.append(copyableComponent));
