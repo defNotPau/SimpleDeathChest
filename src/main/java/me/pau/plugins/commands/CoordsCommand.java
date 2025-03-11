@@ -14,13 +14,19 @@ import org.jetbrains.annotations.NotNull;
 
 public class CoordsCommand implements CommandExecutor {
     DeathChestsHandler deathChests;
+    boolean enabled;
 
-    public CoordsCommand(DeathChestsHandler deathChests) {
+    public CoordsCommand(DeathChestsHandler deathChests, boolean status) {
+        this.enabled = status;
         this.deathChests = deathChests;
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (!enabled) {
+            sender.sendMessage(Component.text("Uhhh... this is not enabled ;c \n (if you think this is an error you should ask an admin...)"));
+            return true;
+        }
         if (!(sender instanceof Player)) {
             sender.sendMessage(Component.text("YOU'RE NOT A PLAYER >:(", NamedTextColor.DARK_AQUA));
             return true;
@@ -39,7 +45,7 @@ public class CoordsCommand implements CommandExecutor {
         int y = location.getBlockY();
 
         Component staticComponent = Component.text("Your latest chest's coordinates are: ", NamedTextColor.BLUE);
-        Component copyableComponent = Component.text((x + ", " + y + ", " + z), NamedTextColor.DARK_BLUE, TextDecoration.UNDERLINED)
+        Component copyableComponent = Component.text((x + ", " + y + ", " + z), NamedTextColor.GREEN, TextDecoration.UNDERLINED)
                 .clickEvent(ClickEvent.copyToClipboard(x + " " + y + " " + z));
 
         player.sendMessage(staticComponent.append(copyableComponent));

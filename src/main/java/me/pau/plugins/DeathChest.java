@@ -15,6 +15,9 @@ public class DeathChest extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        this.saveDefaultConfig();
+        boolean isCoordsCommandEnabled = this.getConfig().getBoolean("commands.coords", true);
+
         utils = new Utils(this);
 
         saveHandler = new DeathChestsHandler(this);
@@ -30,7 +33,7 @@ public class DeathChest extends JavaPlugin {
 
         PluginCommand coordsCommand = getCommand("coords");
         if (coordsCommand != null) {
-            coordsCommand.setExecutor(new CoordsCommand(saveHandler));
+            coordsCommand.setExecutor(new CoordsCommand(saveHandler, isCoordsCommandEnabled));
         } else {
             utils.severePrint("Failed to register /coords command. Check your plugin.yml or Paper configuration.");
         }
