@@ -34,7 +34,7 @@ public class DeathHandler implements Listener {
 
         Inventory customInventory = Bukkit.createInventory(null, 45);
 
-        if (player.getY() <= 0) {
+        if (player.getY() <= player.getWorld().getMaxHeight()) {
             chestLocation = new Location(player.getWorld(), player.getX(), 1, player.getZ());
         } else {
             chestLocation = event.getPlayer().getLocation();

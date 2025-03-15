@@ -10,7 +10,3 @@ commands:
     description: Logs the player's coordinates.
     permission: deathchest.coords
     aliases: [latest]
-permissions:
-  deathchest.coords:
-    description: Allows the player to use the /coords command.
-    default: true
