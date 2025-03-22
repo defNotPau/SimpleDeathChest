@@ -1,4 +1,4 @@
-package me.pau.plugins.handlers;
+package me.pau.plugins.deathchest.handlers;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;

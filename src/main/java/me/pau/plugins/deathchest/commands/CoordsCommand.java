@@ -1,6 +1,6 @@
-package me.pau.plugins.commands;
+package me.pau.plugins.deathchest.commands;
 
-import me.pau.plugins.handlers.DeathChestsHandler;
+import me.pau.plugins.deathchest.handlers.DeathChestsHandler;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;

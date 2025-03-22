@@ -1,6 +1,6 @@
-package me.pau.plugins;
-import me.pau.plugins.commands.CoordsCommand;
-import me.pau.plugins.handlers.*;
+package me.pau.plugins.deathchest;
+import me.pau.plugins.deathchest.commands.CoordsCommand;
+import me.pau.plugins.deathchest.handlers.*;
 
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;

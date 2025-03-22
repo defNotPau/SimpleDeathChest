@@ -1,6 +1,6 @@
-package me.pau.plugins.handlers;
+package me.pau.plugins.deathchest.handlers;
 
-import me.pau.plugins.DeathChest;
+import me.pau.plugins.deathchest.DeathChest;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

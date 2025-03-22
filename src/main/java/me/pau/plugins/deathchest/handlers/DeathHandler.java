@@ -1,5 +1,5 @@
-package me.pau.plugins.handlers;
-import me.pau.plugins.DeathChest;
+package me.pau.plugins.deathchest.handlers;
+import me.pau.plugins.deathchest.DeathChest;
 
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
