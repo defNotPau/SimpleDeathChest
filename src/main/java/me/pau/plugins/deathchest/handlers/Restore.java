@@ -3,12 +3,13 @@ package me.pau.plugins.deathchest.handlers;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-public class RestoreHandler {
-    Utils utils;
-    DeathChestsHandler deathChests;
+import static me.pau.plugins.deathchest.DeathChest.infoPrint;
+import static me.pau.plugins.deathchest.DeathChest.warnPrint;
 
-    public RestoreHandler(Utils utils, DeathChestsHandler deathChests) {
-        this.utils = utils;
+public class Restore {
+    Chests deathChests;
+
+    public Restore(Chests deathChests) {
         this.deathChests = deathChests;
     }
 
@@ -18,11 +19,11 @@ public class RestoreHandler {
                 chest.setType(Material.CHEST);
             } else {
                 assert chest != null;
-                utils.warnPrint("Skipped restoring chest at unloaded chunk: " + chest.getLocation());
+                warnPrint("Skipped restoring chest at unloaded chunk: " + chest.getLocation());
             }
         }
 
-        utils.infoPrint("Death Chest restore complete");
+        infoPrint("Death Chest restore complete");
     }
 }
 

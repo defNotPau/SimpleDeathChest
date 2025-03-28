@@ -1,2 +1,6 @@
+#The commands section... what am I supposed to even comment about this???
 commands:
+  # So if you do want to use the /coords || /latest command in your server
+  # true - Command that lets players know their latest death location on the world
+  # false - nope :)
   coords: false

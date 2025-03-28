@@ -15,11 +15,11 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class DeathHandler implements Listener {
+public class Death implements Listener {
 
-    DeathChestsHandler deathChests;
+    Chests deathChests;
 
-    public DeathHandler(DeathChest plugin, DeathChestsHandler deathChests) {
+    public Death(DeathChest plugin, Chests deathChests) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
         this.deathChests = deathChests;
     }

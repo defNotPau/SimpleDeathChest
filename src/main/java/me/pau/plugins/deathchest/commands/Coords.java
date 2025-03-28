@@ -1,6 +1,6 @@
 package me.pau.plugins.deathchest.commands;
 
-import me.pau.plugins.deathchest.handlers.DeathChestsHandler;
+import me.pau.plugins.deathchest.handlers.Chests;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -12,11 +12,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class CoordsCommand implements CommandExecutor {
-    DeathChestsHandler deathChests;
+public class Coords implements CommandExecutor {
+    Chests deathChests;
     boolean enabled;
 
-    public CoordsCommand(DeathChestsHandler deathChests, boolean status) {
+    public Coords(Chests deathChests, boolean status) {
         this.enabled = status;
         this.deathChests = deathChests;
     }
@@ -27,12 +27,10 @@ public class CoordsCommand implements CommandExecutor {
             sender.sendMessage(Component.text("Uhhh... this is not enabled ;c \n (if you think this is an error you should ask an admin...)"));
             return true;
         }
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage(Component.text("YOU'RE NOT A PLAYER >:(", NamedTextColor.DARK_AQUA));
             return true;
         }
-
-        Player player = (Player) sender;
 
         Location location = deathChests.get(player.getName());
         if (location == null) {
