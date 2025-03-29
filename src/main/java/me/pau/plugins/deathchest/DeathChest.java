@@ -8,8 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class DeathChest extends JavaPlugin {
     Death deathHandler;
     Interaction chestInteraction;
-    Chests saveHandler;
-    Restore restoreHandler;
+    Chests chests;
 
     private final static DeathChest instance = new DeathChest();
 
@@ -18,20 +17,18 @@ public class DeathChest extends JavaPlugin {
         this.saveDefaultConfig();
         boolean isCoordsCommandEnabled = this.getConfig().getBoolean("commands.coords", true);
 
-        saveHandler = new Chests(this);
-        saveHandler.load();
+        chests = new Chests(this);
+        chests.load();
 
-        deathHandler = new Death(this, saveHandler);
-        chestInteraction = new Interaction(this, saveHandler);
-
-        restoreHandler = new Restore(saveHandler);
-        restoreHandler.restore();
-
+        deathHandler = new Death(this, chests);
+        chestInteraction = new Interaction(this, chests);
+        
         infoPrint("I might be working");
+        chests.restore();
 
         PluginCommand coordsCommand = getCommand("coords");
-        if (coordsCommand != null) {
-            coordsCommand.setExecutor(new Coords(saveHandler, isCoordsCommandEnabled));
+        if (coordsCommand != null && isCoordsCommandEnabled) {
+            coordsCommand.setExecutor(new Coords(chests));
         } else {
             severePrint("Failed to register /coords command. Check your plugin.yml or Paper configuration.");
         }
@@ -39,7 +36,7 @@ public class DeathChest extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        saveHandler.save();
+        chests.save();
         warnPrint("I'm def NOT working rn");
     }
 

@@ -3,6 +3,7 @@ package me.pau.plugins.deathchest.handlers;
 import me.pau.plugins.deathchest.DeathChest;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -134,6 +135,20 @@ public class Chests {
         } catch (IOException e) {
             warnPrint(e.toString());
         }
+    }
+
+    // NOTE: this restores chests TO THE WORLD, not to the list :)
+    public void restore() {
+        for (Block chest : keySet()) {
+            if (chest != null && chest.getLocation().getChunk().isLoaded()) {
+                chest.setType(Material.CHEST);
+            } else {
+                assert chest != null;
+                warnPrint("Skipped restoring chest at unloaded chunk: " + chest.getLocation());
+            }
+        }
+
+        infoPrint("Death Chest restore complete");
     }
 
     public void load() {

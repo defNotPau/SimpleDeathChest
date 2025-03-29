@@ -14,19 +14,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class Coords implements CommandExecutor {
     Chests deathChests;
-    boolean enabled;
 
-    public Coords(Chests deathChests, boolean status) {
-        this.enabled = status;
+    public Coords(Chests deathChests) {
         this.deathChests = deathChests;
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!enabled) {
-            sender.sendMessage(Component.text("Uhhh... this is not enabled ;c \n (if you think this is an error you should ask an admin...)"));
-            return true;
-        }
         if (!(sender instanceof Player player)) {
             sender.sendMessage(Component.text("YOU'RE NOT A PLAYER >:(", NamedTextColor.DARK_AQUA));
             return true;
