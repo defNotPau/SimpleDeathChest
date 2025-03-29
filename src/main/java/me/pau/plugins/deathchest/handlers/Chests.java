@@ -21,8 +21,8 @@ import static me.pau.plugins.deathchest.DeathChest.warnPrint;
 
 public class Chests {
     private final JavaPlugin plugin;
-    private HashMap<Block, Inventory> deathChests = new HashMap<>();
-    private HashMap<String, Location> latestDeathLocation = new HashMap<>();
+    private final HashMap<Block, Inventory> deathChests = new HashMap<>();
+    private final HashMap<String, Location> latestDeathLocation = new HashMap<>();
 
     public Chests(DeathChest plugin) {
         this.plugin = plugin;
@@ -62,6 +62,16 @@ public class Chests {
         return latestDeathLocation.get(value);
     }
 
+    public String get(Location value) {
+        infoPrint("get(location) Executed");
+        for (String i : latestDeathLocation.keySet()) {
+            if (latestDeathLocation.get(i) == value) {
+                return i;
+            }
+        }
+        return null;
+    }
+
     public boolean containsKey(Block key) {
         infoPrint("containsKey() Executed");
         return deathChests.containsKey(key);
@@ -72,10 +82,11 @@ public class Chests {
         return deathChests.containsValue(value);
     }
 
+    //
     public void remove(Block key) {
         infoPrint("remove() Executed");
         deathChests.remove(key);
-        latestDeathLocation.remove(key.getLocation());
+        latestDeathLocation.remove(get(key.getLocation()));
         infoPrint(Integer.toString(deathChests.size()));
     }
 
@@ -170,6 +181,7 @@ public class Chests {
                 List<ItemStack> contents = (List<ItemStack>) config.get(locString);
                 Inventory customInventory = Bukkit.createInventory(null, 45);
 
+                assert contents != null;
                 customInventory.setContents(contents.toArray(new ItemStack[0]));
 
                 deathChests.put(block, customInventory);
@@ -180,11 +192,10 @@ public class Chests {
         if (latest.exists()) {
             FileConfiguration latestConfig = YamlConfiguration.loadConfiguration(latest);
             for (String key : latestConfig.getKeys(false)) {
-                Location loc = deserializeLocation((String) latestConfig.get(key));
-                String plrName = key;
+                Location loc = deserializeLocation((String) Objects.requireNonNull(latestConfig.get(key)));
 
-                warnPrint(loc + " " + plrName);
-                latestDeathLocation.put(plrName, loc);
+                warnPrint(loc + " " + key);
+                latestDeathLocation.put(key, loc);
             }
             infoPrint("latest deaths restored");
         }
