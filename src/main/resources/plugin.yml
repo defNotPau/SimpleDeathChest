@@ -4,7 +4,6 @@ main: me.pau.plugins.deathchest.DeathChest
 api-version: '1.20'
 author: defNotPau
 description: Simple, hopefully efficient and reliable Death Chest plugin so items won't really despawn
-folia-supported: true
 commands:
   coords:
     usage: /coords
