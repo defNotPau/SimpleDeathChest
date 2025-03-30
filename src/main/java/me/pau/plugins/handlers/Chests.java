@@ -3,6 +3,7 @@ package me.pau.plugins.handlers;
 import me.pau.plugins.DeathChest;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,20 +16,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class DeathChestsHandler {
-    private final JavaPlugin plugin;
-    private HashMap<Block, Inventory> deathChests = new HashMap<>();
-    private HashMap<String, Location> latestDeathLocation = new HashMap<>();
-    Utils utils;
+import static me.pau.plugins.DeathChest.infoPrint;
+import static me.pau.plugins.DeathChest.warnPrint;
 
-    public DeathChestsHandler(DeathChest plugin) {
+public class Chests {
+    private final JavaPlugin plugin;
+    private final HashMap<Block, Inventory> deathChests = new HashMap<>();
+    private final HashMap<String, Location> latestDeathLocation = new HashMap<>();
+
+    public Chests(DeathChest plugin) {
         this.plugin = plugin;
-        utils = new Utils(plugin);
     }
 
     public void put(Block block, Inventory inventory, Player player) {
-        utils.infoPrint("put() Executed");
-        utils.infoPrint(inventory.toString());
+        infoPrint("put() Executed");
+        infoPrint(inventory.toString());
         deathChests.put(block, inventory);
 
 
@@ -41,12 +43,12 @@ public class DeathChestsHandler {
     }
 
     public Inventory get(Block key) {
-        utils.infoPrint("get(block) Executed");
+        infoPrint("get(block) Executed");
         return deathChests.get(key);
     }
 
     public Block get(Inventory value) {
-        utils.infoPrint("get(inventory) Executed");
+        infoPrint("get(inventory) Executed");
         for (Block i : deathChests.keySet()) {
             if (deathChests.get(i) == value) {
                 return i;
@@ -56,29 +58,29 @@ public class DeathChestsHandler {
     }
 
     public Location get(String value) {
-        utils.infoPrint("get(player) Executed");
+        infoPrint("get(player) Executed");
         return latestDeathLocation.get(value);
     }
 
     public boolean containsKey(Block key) {
-        utils.infoPrint("containsKey() Executed");
+        infoPrint("containsKey() Executed");
         return deathChests.containsKey(key);
     }
 
     public boolean containsValue(Inventory value) {
-        utils.infoPrint("containsValue() Executed");
+        infoPrint("containsValue() Executed");
         return deathChests.containsValue(value);
     }
 
     public void remove(Block key) {
-        utils.infoPrint("remove() Executed");
+        infoPrint("remove() Executed");
         deathChests.remove(key);
         latestDeathLocation.remove(key.getLocation());
-        utils.infoPrint(Integer.toString(deathChests.size()));
+        infoPrint(Integer.toString(deathChests.size()));
     }
 
     public Set<Block> keySet() {
-        utils.infoPrint("keySet() Executed");
+        infoPrint("keySet() Executed");
         return deathChests.keySet();
     }
 
@@ -87,12 +89,12 @@ public class DeathChestsHandler {
         try {
             emptyConfig.save(file);
         } catch (IOException e) {
-            utils.warnPrint(e.toString());
+            warnPrint(e.toString());
         }
     }
 
     public void save() {
-        utils.infoPrint(Integer.toString(deathChests.size()));
+        infoPrint(Integer.toString(deathChests.size()));
 
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
         File latest = new File(plugin.getDataFolder(), "latestDeaths.yml");
@@ -103,7 +105,7 @@ public class DeathChestsHandler {
             emptyConfig.save(file);
             emptyConfig2.save(latest);
         } catch (IOException e) {
-            utils.warnPrint(e.toString());
+            warnPrint(e.toString());
         }
 
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
@@ -129,9 +131,9 @@ public class DeathChestsHandler {
         try {
             config.save(file);
             latestConfig.save(latest);
-            utils.infoPrint("Saving Death Chests");
+            infoPrint("Saving Death Chests");
         } catch (IOException e) {
-            utils.warnPrint(e.toString());
+            warnPrint(e.toString());
         }
     }
 
@@ -158,23 +160,49 @@ public class DeathChestsHandler {
 
                 deathChests.put(block, customInventory);
             }
-            utils.infoPrint("death chests restored");
+            infoPrint("death chests restored");
         }
 
         if (latest.exists()) {
             FileConfiguration latestConfig = YamlConfiguration.loadConfiguration(latest);
             for (String key : latestConfig.getKeys(false)) {
-                Location loc = utils.deserializeLocation((String) latestConfig.get(key));
+                Location loc = deserializeLocation((String) latestConfig.get(key));
                 String plrName = key;
 
-                utils.warnPrint(loc + " " + plrName);
+                warnPrint(loc + " " + plrName);
                 latestDeathLocation.put(plrName, loc);
             }
-            utils.infoPrint("latest deaths restored");
+            infoPrint("latest deaths restored");
         }
 
         deleteFile(file);
         deleteFile(latest);
-        utils.infoPrint("Loaded Death Chests");
+        infoPrint("Loaded Death Chests");
+    }
+
+    public Location deserializeLocation(String locKey) {
+        String[] parts = locKey.split(",");
+        if (parts.length == 4) {
+            World world = Bukkit.getWorld(parts[0]);
+            double x = Double.parseDouble(parts[1]);
+            double y = Double.parseDouble(parts[2]);
+            double z = Double.parseDouble(parts[3]);
+
+            return new Location(world,x,y,z);
+        }
+        return null;
+    }
+
+    public void restoreInWorld() {
+        for (Block chest : deathChests.keySet()) {
+            if (chest != null && chest.getLocation().getChunk().isLoaded()) {
+                chest.setType(Material.CHEST);
+            } else {
+                assert chest != null;
+                warnPrint("Skipped restoring chest at unloaded chunk: " + chest.getLocation());
+            }
+        }
+
+        infoPrint("Death Chest restore in world complete");
     }
 }

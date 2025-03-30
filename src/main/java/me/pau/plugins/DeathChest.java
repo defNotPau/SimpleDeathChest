@@ -1,48 +1,61 @@
 package me.pau.plugins;
-import me.pau.plugins.commands.CoordsCommand;
+import me.pau.plugins.commands.Coords;
 import me.pau.plugins.handlers.*;
 
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DeathChest extends JavaPlugin {
-    DeathHandler deathHandler;
-    ChestInteractionHandler chestInteractionHandler;
-    DeathChestsHandler saveHandler;
-    RestoreHandler restoreHandler;
-
-    Utils utils;
+    public static DeathChest instance; 
+    
+    Death death;
+    Interaction interaction;
+    Chests chests;
 
     @Override
     public void onEnable() {
+        instance = this;
+        
         this.saveDefaultConfig();
         boolean isCoordsCommandEnabled = this.getConfig().getBoolean("commands.coords", true);
 
-        utils = new Utils(this);
+        chests = new Chests(this);
+        chests.load();
 
-        saveHandler = new DeathChestsHandler(this);
-        saveHandler.load();
+        death = new Death(this, chests);
+        interaction = new Interaction(this, chests);
 
-        deathHandler = new DeathHandler(this, saveHandler);
-        chestInteractionHandler = new ChestInteractionHandler(this, saveHandler, utils);
+        chests.restoreInWorld();
 
-        restoreHandler = new RestoreHandler(utils, saveHandler);
-        restoreHandler.restore();
-
-        utils.infoPrint("I might be working");
+        infoPrint("I might be working");
 
         PluginCommand coordsCommand = getCommand("coords");
         if (coordsCommand != null) {
-            coordsCommand.setExecutor(new CoordsCommand(saveHandler, isCoordsCommandEnabled));
+            if (isCoordsCommandEnabled) {
+                coordsCommand.setExecutor(new Coords(chests));
+                infoPrint("/coords enabled");
+            } else {
+                warnPrint("/coords disabled");
+            }
         } else {
-            utils.severePrint("Failed to register /coords command. Check your plugin.yml or Paper configuration.");
+            severePrint("Failed to register /coords command");
         }
     }
 
     @Override
     public void onDisable() {
-        saveHandler.save();
-        utils.warnPrint("I'm def NOT working rn");
+        chests.save();
+        warnPrint("I'm def NOT working rn");
+    }
+
+    static public void infoPrint(String msg) {
+        instance.getLogger().info(msg);
+    }
+    static public void warnPrint(String msg) {
+        instance.getLogger().warning(msg);
+    }
+    static public void severePrint(String msg) {
+        instance.getLogger().severe(msg);
     }
 }
 

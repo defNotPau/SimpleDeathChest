@@ -14,15 +14,14 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class ChestInteractionHandler implements Listener {
-    DeathChestsHandler deathChests;
-    Utils utils;
+import static me.pau.plugins.DeathChest.infoPrint;
 
-    public ChestInteractionHandler(DeathChest plugin, DeathChestsHandler deathChests, Utils utils) {
+public class Interaction implements Listener {
+    Chests deathChests;
+
+    public Interaction(DeathChest plugin, Chests deathChests) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
-
         this.deathChests = deathChests;
-        this.utils = utils;
     }
 
     @EventHandler
@@ -60,9 +59,9 @@ public class ChestInteractionHandler implements Listener {
                 deathChests.remove(block);
 
                 block.setType(Material.AIR);
-                utils.infoPrint("Removed chest at " + block.getLocation());
+                infoPrint("Removed chest at " + block.getLocation());
             } else {
-                utils.infoPrint("Chest not empty, keeping it.");
+                infoPrint("Chest not empty, keeping it.");
             }
         }
     }

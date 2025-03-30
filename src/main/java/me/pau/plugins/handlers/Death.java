@@ -15,11 +15,11 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class DeathHandler implements Listener {
+public class Death implements Listener {
 
-    DeathChestsHandler deathChests;
+    Chests deathChests;
 
-    public DeathHandler(DeathChest plugin, DeathChestsHandler deathChests) {
+    public Death(DeathChest plugin, Chests deathChests) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
         this.deathChests = deathChests;
     }
@@ -34,7 +34,7 @@ public class DeathHandler implements Listener {
 
         Inventory customInventory = Bukkit.createInventory(null, 45);
 
-        if (player.getY() <= player.getWorld().getMaxHeight()) {
+        if (player.getY() <= player.getWorld().getMinHeight()) {
             chestLocation = new Location(player.getWorld(), player.getX(), 1, player.getZ());
         } else {
             chestLocation = event.getPlayer().getLocation();
