@@ -59,10 +59,10 @@ public class Interaction implements Listener {
                 deathChests.remove(block);
 
                 block.setType(Material.AIR);
-                infoPrint("Removed chest at " + block.getLocation());
-            } else {
-                infoPrint("Chest not empty, keeping it.");
-            }
+                // infoPrint("Removed chest at " + block.getLocation());
+            } // else {
+                // infoPrint("Chest not empty, keeping it.");
+            // }
         }
     }
 

@@ -15,6 +15,7 @@ public class DeathChest extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        infoPrint("I might be working");
         
         this.saveDefaultConfig();
         boolean isCoordsCommandEnabled = this.getConfig().getBoolean("commands.coords", true);
@@ -26,8 +27,6 @@ public class DeathChest extends JavaPlugin {
         interaction = new Interaction(this, chests);
 
         chests.restoreInWorld();
-
-        infoPrint("I might be working");
 
         PluginCommand coordsCommand = getCommand("coords");
         if (coordsCommand != null) {

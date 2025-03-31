@@ -29,8 +29,8 @@ public class Chests {
     }
 
     public void put(Block block, Inventory inventory, Player player) {
-        infoPrint("put() Executed");
-        infoPrint(inventory.toString());
+        // infoPrint("put() Executed");
+        // infoPrint(inventory.toString());
         deathChests.put(block, inventory);
 
 
@@ -43,12 +43,12 @@ public class Chests {
     }
 
     public Inventory get(Block key) {
-        infoPrint("get(block) Executed");
+        // infoPrint("get(block) Executed");
         return deathChests.get(key);
     }
 
     public Block get(Inventory value) {
-        infoPrint("get(inventory) Executed");
+        // infoPrint("get(inventory) Executed");
         for (Block i : deathChests.keySet()) {
             if (deathChests.get(i) == value) {
                 return i;
@@ -58,29 +58,39 @@ public class Chests {
     }
 
     public Location get(String value) {
-        infoPrint("get(player) Executed");
+        // infoPrint("get(player) Executed");
         return latestDeathLocation.get(value);
     }
 
+    public String get(Location value) {
+        // infoPrint("get(location) Executed");
+        for (String i : latestDeathLocation.keySet()) {
+            if (latestDeathLocation.get(i) == value) {
+                return i;
+            }
+        }
+        return null;
+    }
+
     public boolean containsKey(Block key) {
-        infoPrint("containsKey() Executed");
+        // infoPrint("containsKey() Executed");
         return deathChests.containsKey(key);
     }
 
     public boolean containsValue(Inventory value) {
-        infoPrint("containsValue() Executed");
+        // infoPrint("containsValue() Executed");
         return deathChests.containsValue(value);
     }
 
     public void remove(Block key) {
-        infoPrint("remove() Executed");
+        // infoPrint("remove() Executed");
         deathChests.remove(key);
-        latestDeathLocation.remove(key.getLocation());
-        infoPrint(Integer.toString(deathChests.size()));
+        latestDeathLocation.remove(get(key.getLocation()));
+        // infoPrint(Integer.toString(deathChests.size()));
     }
 
     public Set<Block> keySet() {
-        infoPrint("keySet() Executed");
+        // infoPrint("keySet() Executed");
         return deathChests.keySet();
     }
 
@@ -94,7 +104,7 @@ public class Chests {
     }
 
     public void save() {
-        infoPrint(Integer.toString(deathChests.size()));
+        // infoPrint(Integer.toString(deathChests.size()));
 
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
         File latest = new File(plugin.getDataFolder(), "latestDeaths.yml");
@@ -160,7 +170,7 @@ public class Chests {
 
                 deathChests.put(block, customInventory);
             }
-            infoPrint("death chests restored");
+            // infoPrint("death chests loaded");
         }
 
         if (latest.exists()) {
@@ -169,10 +179,10 @@ public class Chests {
                 Location loc = deserializeLocation((String) latestConfig.get(key));
                 String plrName = key;
 
-                warnPrint(loc + " " + plrName);
+                // warnPrint(loc + " " + plrName);
                 latestDeathLocation.put(plrName, loc);
             }
-            infoPrint("latest deaths restored");
+            // infoPrint("latest deaths loaded");
         }
 
         deleteFile(file);
@@ -203,6 +213,6 @@ public class Chests {
             }
         }
 
-        infoPrint("Death Chest restore in world complete");
+        // infoPrint("Death Chest restore in world complete");
     }
 }
