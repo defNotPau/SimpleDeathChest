@@ -3,6 +3,7 @@ import me.pau.plugins.DeathChest;
 
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.Bukkit;
@@ -24,7 +25,7 @@ public class Death implements Listener {
         this.deathChests = deathChests;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getPlayer();
         Location chestLocation;
@@ -33,12 +34,12 @@ public class Death implements Listener {
         if (playerDrops.isEmpty()) { return; }
 
         Inventory customInventory = Bukkit.createInventory(null, 45);
-
-        if (player.getY() <= player.getWorld().getMinHeight()) {
-            chestLocation = new Location(player.getWorld(), player.getX(), 1, player.getZ());
-        } else {
-            chestLocation = event.getPlayer().getLocation();
-        }
+        chestLocation = new Location(
+                player.getWorld(),
+                player.getX(),
+                (player.getY() <= player.getWorld().getMinHeight()) ? player.getWorld().getMinHeight() : player.getY(),
+                player.getZ()
+        );
 
         Block block = chestLocation.getBlock();
         if (block.getType() == Material.CHEST) { block = block.getRelative(BlockFace.UP); }
@@ -52,7 +53,7 @@ public class Death implements Listener {
 
         playerDrops.clear();
 
-        deathChests.put(block, customInventory, player);
+        deathChests.put(block, customInventory);
         deathChests.save();
     }
 }

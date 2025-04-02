@@ -1,12 +1,6 @@
 name: DeathChest
-version: '1.3'
+version: '1.3.1'
 main: me.pau.plugins.DeathChest
 api-version: '1.13'
 author: defNotPau
-description: Simple, hopefully efficient and reliable deathchest plugin so items won't really despawn
-commands:
-  coords:
-    usage: /coords
-    description: Logs the player's coordinates.
-    permission: deathchest.coords
-    aliases: [latest]
+description: Simple, hopefully efficient and reliable Death Chest plugin so items won't despawn

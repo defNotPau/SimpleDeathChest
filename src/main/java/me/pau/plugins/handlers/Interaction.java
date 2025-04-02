@@ -14,8 +14,6 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import static me.pau.plugins.DeathChest.infoPrint;
-
 public class Interaction implements Listener {
     Chests deathChests;
 
@@ -59,10 +57,7 @@ public class Interaction implements Listener {
                 deathChests.remove(block);
 
                 block.setType(Material.AIR);
-                // infoPrint("Removed chest at " + block.getLocation());
-            } // else {
-                // infoPrint("Chest not empty, keeping it.");
-            // }
+            }
         }
     }
 

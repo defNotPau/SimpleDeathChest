@@ -1,4 +1,0 @@
-translations:
-  commands.coords.pre-copyable: "Your latest chest coordinates are: "
-  commands.coords.not_player: "YOU'RE NOT A PLAYER >:("
-  commands.coords.not_died: "You haven't died yet :D Fun for you innit?"
