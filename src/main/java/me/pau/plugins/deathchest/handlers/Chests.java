@@ -1,6 +1,6 @@
-package me.pau.plugins.handlers;
+package me.pau.plugins.deathchest.handlers;
 
-import me.pau.plugins.DeathChest;
+import me.pau.plugins.deathchest.DeathChest;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,8 +15,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static me.pau.plugins.DeathChest.infoPrint;
-import static me.pau.plugins.DeathChest.warnPrint;
+import static me.pau.plugins.deathchest.DeathChest.infoPrint;
+import static me.pau.plugins.deathchest.DeathChest.warnPrint;
 
 public class Chests {
     private final JavaPlugin plugin;
@@ -28,11 +28,19 @@ public class Chests {
         this.plugin = plugin;
     }
 
+    /**
+     * @param block the chest-block as a key for the inventory
+     * @param inventory the inventory where the player's items are in assigned to the chest
+     */
     public void put(Block block, Inventory inventory) {
         deathChests.put(block, inventory);
         opposite.put(inventory, block);
     }
 
+    /**
+     * @param key block for where the inventory should be in
+     * @return value of the block (key) on the hash map of block, inventory where deathchest information is stored
+     */
     public Inventory get(Block key) {
         return deathChests.get(key);
     }

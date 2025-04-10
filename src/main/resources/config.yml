@@ -1,0 +1,3 @@
+chest_interactions:
+  player_breakable: false
+  explosion_proof: true

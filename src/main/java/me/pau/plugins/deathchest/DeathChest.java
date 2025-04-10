@@ -1,11 +1,13 @@
-package me.pau.plugins;
+package me.pau.plugins.deathchest;
 
-import me.pau.plugins.handlers.*;
+import me.pau.plugins.deathchest.handlers.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DeathChest extends JavaPlugin {
-    public static DeathChest instance; 
-    
+    public static DeathChest instance;
+    static public boolean playerBreakable;
+    static public boolean explosionProof;
+
     Death death;
     Interaction interaction;
     Chests chests;
@@ -15,11 +17,13 @@ public class DeathChest extends JavaPlugin {
         instance = this;
         infoPrint("I might be working");
 
-        chests = new Chests(this);
+        chests = new Chests(instance);
         chests.load();
+        death = new Death(instance, chests);
 
-        death = new Death(this, chests);
-        interaction = new Interaction(this, chests);
+        playerBreakable = this.getConfig().getBoolean("chest_interactions.player_breakable", false);
+        explosionProof = this.getConfig().getBoolean("chest_interactions.explosion_proof", true);
+        interaction = new Interaction(instance, chests);
 
         chests.restoreInWorld();
     }
