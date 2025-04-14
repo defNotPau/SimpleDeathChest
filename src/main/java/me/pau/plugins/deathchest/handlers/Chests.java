@@ -45,23 +45,41 @@ public class Chests {
         return deathChests.get(key);
     }
 
+    /**
+     * @param value inventory for which the block should be the owner of
+     * @return value of the block on the hash map based on the inventory it owns
+     */
     public Block get(Inventory value) {
         return opposite.get(value);
     }
 
+    /**
+     * @param key block that will be checked if part of the hash map
+     * @return whether the block is part of the hash map
+     */
     public boolean containsKey(Block key) {
         return deathChests.containsKey(key);
     }
 
+    /**
+     * @param value inventory value that will be checked if it is part of the hash map
+     * @return whether the inventory is a value of the hash map
+     */
     public boolean containsValue(Inventory value) {
         return deathChests.containsValue(value);
     }
 
+    /**
+     * @param key block-key of the hash map to be removed
+     */
     public void remove(Block key) {
         deathChests.remove(key);
         opposite.remove(deathChests.get(key));
     }
 
+    /**
+     * @param file file to be deleted, as rewriting it as an empty YamlConfiguration
+     */
     private void deleteFile(File file) {
         FileConfiguration emptyConfig = new YamlConfiguration();
         try {
@@ -71,6 +89,9 @@ public class Chests {
         }
     }
 
+    /**
+     * Saves current state of the hash map containing chests and inventories to a YamlConfiguration
+     */
     public void save() {
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
         FileConfiguration emptyConfig = new YamlConfiguration();
@@ -98,6 +119,9 @@ public class Chests {
         }
     }
 
+    /**
+     * Loads the new state of the hash map containing chests and inventories from the saved YamlConfiguration
+     */
     public void load() {
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
 
@@ -127,6 +151,9 @@ public class Chests {
         infoPrint("Loaded Death Chests");
     }
 
+    /**
+     * Chests in the world are added to the world as in the hash map
+     */
     public void restoreInWorld() {
         for (Block chest : deathChests.keySet()) {
             if (chest != null && chest.getLocation().getChunk().isLoaded()) {

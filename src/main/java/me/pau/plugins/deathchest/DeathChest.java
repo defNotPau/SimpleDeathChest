@@ -34,9 +34,16 @@ public class DeathChest extends JavaPlugin {
         warnPrint("I'm def NOT working rn");
     }
 
+    /**
+     * @param msg message to be logged as INFO on the server's console
+     */
     static public void infoPrint(String msg) {
         instance.getLogger().info(msg);
     }
+
+    /**
+     * @param msg message to be logged as WARN on the server's console
+     */
     static public void warnPrint(String msg) {
         instance.getLogger().warning(msg);
     }
