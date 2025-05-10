@@ -18,11 +18,6 @@ public class DeathChest extends JavaPlugin {
         instance = this;
         infoPrint("I might be working");
         isExcellentEnchantsEnabled = getServer().getPluginManager().isPluginEnabled("ExcellentEnchants");
-        if (isExcellentEnchantsEnabled) {
-            infoPrint("Excellent Enchants detected");
-        } else {
-            infoPrint("Excellent Enchants is not detected");
-        }
 
         chests = new Chests(instance);
         chests.load();
