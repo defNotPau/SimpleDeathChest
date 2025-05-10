@@ -40,7 +40,9 @@ public class Death implements Listener {
         List<ItemStack> playerDrops = event.getDrops();
         if (playerDrops.isEmpty()) { return; }
 
-        Inventory customInventory = Bukkit.createInventory(null, 45);
+        int chestInventorySize = Math.ceilDiv(playerDrops.size(), 9) * 9;
+
+        Inventory customInventory = Bukkit.createInventory(null, chestInventorySize);
         chestLocation = new Location(
                 player.getWorld(),
                 player.getX(),
