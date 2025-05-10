@@ -4,6 +4,7 @@ import me.pau.plugins.deathchest.handlers.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DeathChest extends JavaPlugin {
+    private boolean isExcellentEnchantsEnabled = false;
     public static DeathChest instance;
     static public boolean playerBreakable;
     static public boolean explosionProof;
@@ -16,6 +17,12 @@ public class DeathChest extends JavaPlugin {
     public void onEnable() {
         instance = this;
         infoPrint("I might be working");
+        isExcellentEnchantsEnabled = getServer().getPluginManager().isPluginEnabled("ExcellentEnchants");
+        if (isExcellentEnchantsEnabled) {
+            infoPrint("Excellent Enchants detected");
+        } else {
+            infoPrint("Excellent Enchants is not detected");
+        }
 
         chests = new Chests(instance);
         chests.load();
@@ -47,5 +54,8 @@ public class DeathChest extends JavaPlugin {
     static public void warnPrint(String msg) {
         instance.getLogger().warning(msg);
     }
-}
 
+    public boolean isExcellentEnchantsEnabled() {
+        return isExcellentEnchantsEnabled;
+    }
+}

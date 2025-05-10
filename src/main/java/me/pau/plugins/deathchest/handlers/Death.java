@@ -1,4 +1,5 @@
 package me.pau.plugins.deathchest.handlers;
+
 import me.pau.plugins.deathchest.DeathChest;
 
 import org.bukkit.block.BlockFace;
@@ -13,7 +14,12 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
 
+import static me.pau.plugins.deathchest.DeathChest.instance;
+
+import java.util.Iterator;
 import java.util.List;
 
 public class Death implements Listener {
@@ -25,6 +31,7 @@ public class Death implements Listener {
         this.deathChests = deathChests;
     }
 
+    @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getPlayer();
@@ -47,16 +54,27 @@ public class Death implements Listener {
         block.setType(Material.CHEST);
         block.getState().update(true);
 
-        for (ItemStack item : playerDrops) {
-            customInventory.addItem(item);
-        }
+        if (instance.isExcellentEnchantsEnabled()) {
+            Enchantment soulbound = Enchantment.getByKey(NamespacedKey.fromString("minecraft:soulbound"));
 
-        playerDrops.clear();
+            Iterator<ItemStack> iterator = playerDrops.iterator();
+            while (iterator.hasNext()) {
+                ItemStack item = iterator.next();
+
+                if (!item.getEnchantments().containsKey(soulbound)) {
+                    customInventory.addItem(item);
+                    iterator.remove();
+                }
+            }
+
+        } else {
+            for (ItemStack item : playerDrops) {
+                customInventory.addItem(item);
+            }
+            playerDrops.clear();
+        }
 
         deathChests.put(block, customInventory);
         deathChests.save();
     }
 }
-
-
-
