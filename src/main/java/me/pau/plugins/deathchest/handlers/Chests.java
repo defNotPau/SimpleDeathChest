@@ -20,10 +20,7 @@ import static me.pau.plugins.deathchest.DeathChest.warnPrint;
 
 public class Chests {
     private final JavaPlugin plugin;
-
     private final HashMap<Block, Inventory> deathChests = new HashMap<>();
-    private final HashMap<Inventory, Block> opposite = new HashMap<>();
-
     public Chests(DeathChest plugin) {
         this.plugin = plugin;
     }
@@ -34,7 +31,6 @@ public class Chests {
      */
     public void put(Block block, Inventory inventory) {
         deathChests.put(block, inventory);
-        opposite.put(inventory, block);
     }
 
     /**
@@ -50,7 +46,12 @@ public class Chests {
      * @return value of the block on the hash map based on the inventory it owns
      */
     public Block get(Inventory value) {
-        return opposite.get(value);
+        for (Block i : deathChests.keySet()) {
+            if (deathChests.get(i) == value) {
+                return i;
+            }
+        }
+        return null;
     }
 
     /**
@@ -74,7 +75,6 @@ public class Chests {
      */
     public void remove(Block key) {
         deathChests.remove(key);
-        opposite.remove(deathChests.get(key));
     }
 
     /**
@@ -138,9 +138,10 @@ public class Chests {
                 Block block = location.getBlock();
 
                 List<ItemStack> contents = (List<ItemStack>) config.get(locString);
-                Inventory customInventory = Bukkit.createInventory(null, 45);
 
                 assert contents != null;
+                int chestInventorySize = Math.ceilDiv(contents.size(), 9) * 9;
+                Inventory customInventory = Bukkit.createInventory(null, chestInventorySize);
                 customInventory.setContents(contents.toArray(new ItemStack[0]));
 
                 deathChests.put(block, customInventory);
