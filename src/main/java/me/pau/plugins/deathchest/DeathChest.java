@@ -4,11 +4,16 @@ import me.pau.plugins.deathchest.handlers.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DeathChest extends JavaPlugin {
-    private boolean isExcellentEnchantsEnabled = false;
     public static DeathChest instance;
+
+    // Integrations' variables
+    private boolean isExcellentEnchantsEnabled = false;
+
+    // Config variables
     static public boolean playerBreakable;
     static public boolean explosionProof;
 
+    // Other classes that should be summoned
     Death death;
     Interaction interaction;
     Chests chests;
@@ -17,14 +22,20 @@ public class DeathChest extends JavaPlugin {
     public void onEnable() {
         instance = this;
         infoPrint("I might be working");
+
+        // Config.yml stuffs
+        instance.saveDefaultConfig();
+        playerBreakable = this.getConfig().getBoolean("chest_interactions.player_breakable", false);
+        explosionProof = this.getConfig().getBoolean("chest_interactions.explosion_proof", true);
+
+        // Anything to do with integrations such as variables checking if a plugin is enabled
         isExcellentEnchantsEnabled = getServer().getPluginManager().isPluginEnabled("ExcellentEnchants");
 
+        // Main class summoning
         chests = new Chests(instance);
         chests.load();
         death = new Death(instance, chests);
 
-        playerBreakable = this.getConfig().getBoolean("chest_interactions.player_breakable", false);
-        explosionProof = this.getConfig().getBoolean("chest_interactions.explosion_proof", true);
         interaction = new Interaction(instance, chests);
 
         chests.restoreInWorld();
@@ -50,6 +61,9 @@ public class DeathChest extends JavaPlugin {
         instance.getLogger().warning(msg);
     }
 
+    /**
+     * @return what does the name of this function say?
+     */
     public boolean isExcellentEnchantsEnabled() {
         return isExcellentEnchantsEnabled;
     }

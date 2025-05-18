@@ -27,7 +27,10 @@ public class Interaction implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if (playerBreakable) { return; }
+        if (playerBreakable) {
+            event.setDropItems(false);
+            return;
+        }
 
         Block brokenBlock = event.getBlock();
         if (!deathChests.containsKey(brokenBlock)) { return; }
@@ -49,19 +52,20 @@ public class Interaction implements Listener {
 
     @EventHandler
     public void onChestClose(InventoryCloseEvent event) {
-        if (deathChests.containsValue(event.getInventory())) {
-            if (event.getInventory().isEmpty()) {
-                Block block = deathChests.get(event.getInventory());
-                deathChests.remove(block);
+        if (!deathChests.containsValue(event.getInventory())) { return; }
+        if (!event.getInventory().isEmpty()) { return; }
 
-                block.setType(Material.AIR);
-            }
-        }
+        Block block = deathChests.get(event.getInventory());
+        deathChests.remove(block);
+
+        block.setType(Material.AIR);
     }
 
     @EventHandler
     public void onBlockExplode(BlockExplodeEvent event) {
-        if (!explosionProof) { return; }
+        if (!explosionProof) {
+            return;
+        }
         event.blockList().removeIf(block ->
                 block.getType() == Material.CHEST && deathChests.containsKey(block)
         );
