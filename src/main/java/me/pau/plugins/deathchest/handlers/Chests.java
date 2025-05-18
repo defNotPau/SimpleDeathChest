@@ -54,6 +54,14 @@ public class Chests {
         return null;
     }
 
+//    /**
+//     * @param block block-key for which inventory will be accessed
+//     * @return array of all items on the inventory from the block
+//     */
+//    public ItemStack[] getItems(Block block) {
+//        return deathChests.get(block).getContents();
+//    }
+
     /**
      * @param key block that will be checked if part of the hash map
      * @return whether the block is part of the hash map

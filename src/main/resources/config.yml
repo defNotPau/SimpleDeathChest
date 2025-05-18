@@ -1,3 +1,6 @@
 chest_interactions:
   player_breakable: false
   explosion_proof: true
+
+## Currently under development (1.4.1 feature)
+#  items_drop_when_broken: true

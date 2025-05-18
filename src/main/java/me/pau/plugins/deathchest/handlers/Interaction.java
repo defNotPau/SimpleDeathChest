@@ -2,7 +2,9 @@ package me.pau.plugins.deathchest.handlers;
 import me.pau.plugins.deathchest.DeathChest;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,9 +15,11 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 import static me.pau.plugins.deathchest.DeathChest.playerBreakable;
 import static me.pau.plugins.deathchest.DeathChest.explosionProof;
+//import static me.pau.plugins.deathchest.DeathChest.dropItemsWhenBroken;
 
 public class Interaction implements Listener {
     Chests deathChests;
@@ -27,13 +31,18 @@ public class Interaction implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
+        Block brokenBlock = event.getBlock();
+        if (!deathChests.containsKey(brokenBlock)) { return; }
+
         if (playerBreakable) {
             event.setDropItems(false);
+//            if (dropItemsWhenBroken) {
+//                dropItems(deathChests.getItems(brokenBlock), brokenBlock.getLocation());
+//            }
+            deathChests.remove(brokenBlock);
             return;
         }
 
-        Block brokenBlock = event.getBlock();
-        if (!deathChests.containsKey(brokenBlock)) { return; }
         if (!deathChests.get(brokenBlock).isEmpty()) { event.setCancelled(true);}
     }
 
@@ -78,5 +87,21 @@ public class Interaction implements Listener {
                 block.getType() == Material.CHEST && deathChests.containsKey(block)
         );
     }
+
+//    /**
+//     * @param items array of items to be dropped
+//     * @param location where items will be dropped
+//     */
+//    public void dropItems(ItemStack[] items, Location location) {
+//        World world = location.getWorld();
+//        if (world == null) return;
+//
+//        for (ItemStack item : items) {
+//            if (item != null && item.getAmount() > 0) {
+//                world.dropItemNaturally(location, item);
+//            }
+//        }
+//    }
+
 }
 
