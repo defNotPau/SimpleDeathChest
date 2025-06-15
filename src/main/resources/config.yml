@@ -1,6 +1,20 @@
-chest_interactions:
-  player_breakable: false
-  explosion_proof: true
+## Configuration, options depending on what your server wants to do with the chest ;)
 
-## Currently under development (1.4.1 feature)
-#  items_drop_when_broken: true
+# Potential player interactions
+chest_interactions:
+  # WARNING: WHEN A PLAYER BREAKS A CHEST
+  # THE CHEST'S ITEMS WILL ONLY DROP IF THE OPTION BELOW IS TRUE
+  player_breakable: false
+  items_drop_when_broken: true
+  # explosion_proof, true -> chest won't be destroyed if there's an explosion
+  #                 false -> chest will be destroyed if there's an explosion
+  # Items WILL disappear if option below isn't true
+  explosion_proof: true
+  items_drop_when_exploded: true
+
+# Information on your player's chests
+chest_customization:
+  # Should the chest's "creator" name be displayed?
+  name_on_chest: true
+
+## More configuration upcoming (1.4.2 or whenever I remember)

@@ -17,9 +17,9 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static me.pau.plugins.deathchest.DeathChest.playerBreakable;
-import static me.pau.plugins.deathchest.DeathChest.explosionProof;
-//import static me.pau.plugins.deathchest.DeathChest.dropItemsWhenBroken;
+import java.util.Optional;
+
+import static me.pau.plugins.deathchest.DeathChest.*;
 
 public class Interaction implements Listener {
     Chests deathChests;
@@ -36,9 +36,9 @@ public class Interaction implements Listener {
 
         if (playerBreakable) {
             event.setDropItems(false);
-//            if (dropItemsWhenBroken) {
-//                dropItems(deathChests.getItems(brokenBlock), brokenBlock.getLocation());
-//            }
+            if (dropItemsWhenBroken) {
+                dropItems(deathChests.get(brokenBlock).getContents(), brokenBlock.getLocation());
+            }
             deathChests.remove(brokenBlock);
             return;
         }
@@ -72,9 +72,7 @@ public class Interaction implements Listener {
 
     @EventHandler
     public void onBlockExplode(BlockExplodeEvent event) {
-        if (!explosionProof) {
-            return;
-        }
+        if (!explosionProof) { return; }
         event.blockList().removeIf(block ->
                 block.getType() == Material.CHEST && deathChests.containsKey(block)
         );
@@ -82,26 +80,37 @@ public class Interaction implements Listener {
 
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
-        if (!explosionProof) { return; }
-        event.blockList().removeIf(block ->
-                block.getType() == Material.CHEST && deathChests.containsKey(block)
-        );
+        if (!explosionProof && !dropItemsWhenExploded) { return; }
+        Optional<Block> chestOptional = event.blockList().stream()
+                        .filter(block -> block.getType() == Material.CHEST && deathChests.containsKey(block))
+                        .findFirst();
+        assert chestOptional.isPresent();
+        Block chest = chestOptional.get();
+
+        if (explosionProof) {
+            event.blockList().remove(chest);
+        } else if (dropItemsWhenExploded) {
+            chest.getDrops().clear();
+            dropItems(deathChests.get(chest).getContents(), chest.getLocation());
+        }
+
+        deathChests.remove(chest);
     }
 
-//    /**
-//     * @param items array of items to be dropped
-//     * @param location where items will be dropped
-//     */
-//    public void dropItems(ItemStack[] items, Location location) {
-//        World world = location.getWorld();
-//        if (world == null) return;
-//
-//        for (ItemStack item : items) {
-//            if (item != null && item.getAmount() > 0) {
-//                world.dropItemNaturally(location, item);
-//            }
-//        }
-//    }
+    /**
+     * @param items array of items to be dropped
+     * @param location where items will be dropped
+     */
+    public void dropItems(ItemStack[] items, Location location) {
+        World world = location.getWorld();
+        if (world == null) return;
+
+        for (ItemStack item : items) {
+            if (item != null && item.getAmount() > 0) {
+                world.dropItemNaturally(location, item);
+            }
+        }
+    }
 
 }
 

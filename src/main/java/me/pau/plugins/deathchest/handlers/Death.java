@@ -2,6 +2,7 @@ package me.pau.plugins.deathchest.handlers;
 
 import me.pau.plugins.deathchest.DeathChest;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,6 +19,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 
 import static me.pau.plugins.deathchest.DeathChest.instance;
+import static me.pau.plugins.deathchest.DeathChest.nameVisible;
 
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +44,9 @@ public class Death implements Listener {
 
         int chestInventorySize = Math.ceilDiv(playerDrops.size(), 9) * 9;
 
-        Inventory customInventory = Bukkit.createInventory(null, chestInventorySize);
+        Inventory customInventory = (nameVisible) ?
+                Bukkit.createInventory(null, chestInventorySize, Component.text(player.getName())) :
+                Bukkit.createInventory(null, chestInventorySize);
         chestLocation = new Location(
                 player.getWorld(),
                 player.getX(),

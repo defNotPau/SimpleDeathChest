@@ -11,8 +11,11 @@ public class DeathChest extends JavaPlugin {
 
     // Config variables
     static public boolean playerBreakable;
+    static public boolean dropItemsWhenBroken;
     static public boolean explosionProof;
-//    static public boolean dropItemsWhenBroken;
+    static public boolean dropItemsWhenExploded;
+
+    static public boolean nameVisible;
 
     // Other classes that should be summoned
     Death death;
@@ -28,7 +31,10 @@ public class DeathChest extends JavaPlugin {
         instance.saveDefaultConfig();
         playerBreakable = this.getConfig().getBoolean("chest_interactions.player_breakable", false);
         explosionProof = this.getConfig().getBoolean("chest_interactions.explosion_proof", true);
-//        explosionProof = this.getConfig().getBoolean("chest_interactions.items_drop_when_broken", true);
+        dropItemsWhenExploded = this.getConfig().getBoolean("chest_interactions.items_drop_when_exploded", true);
+        dropItemsWhenBroken = this.getConfig().getBoolean("chest_interactions.items_drop_when_broken", true);
+
+        nameVisible = this.getConfig().getBoolean("chest_customization.name_on_chest", true);
 
         // Anything to do with integrations such as variables checking if a plugin is enabled
         isExcellentEnchantsEnabled = getServer().getPluginManager().isPluginEnabled("ExcellentEnchants");
