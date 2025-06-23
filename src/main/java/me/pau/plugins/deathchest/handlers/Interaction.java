@@ -51,7 +51,9 @@ public class Interaction implements Listener {
     public void onChestOpen(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) { return; }
         Block clickedBlock = event.getClickedBlock();
+
         if (clickedBlock == null) { return; }
+        if (clickedBlock.getType() != Material.CHEST) { return; }
 
         if (deathChests.containsKey(clickedBlock)) {
             Player player = event.getPlayer();

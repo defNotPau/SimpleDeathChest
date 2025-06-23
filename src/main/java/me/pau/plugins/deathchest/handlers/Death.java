@@ -50,7 +50,9 @@ public class Death implements Listener {
         chestLocation = new Location(
                 player.getWorld(),
                 player.getX(),
-                (player.getY() <= player.getWorld().getMinHeight()) ? player.getWorld().getMinHeight() : player.getY(),
+                (player.getY() <= player.getWorld().getMinHeight()) ?
+                        (player.getWorld().getMinHeight() + 1) :
+                        player.getY(),
                 player.getZ()
         );
 
