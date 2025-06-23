@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -80,21 +81,21 @@ public class Interaction implements Listener {
 
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
-        if (!explosionProof && !dropItemsWhenExploded) { return; }
         Optional<Block> chestOptional = event.blockList().stream()
-                        .filter(block -> block.getType() == Material.CHEST && deathChests.containsKey(block))
-                        .findFirst();
-        assert chestOptional.isPresent();
+                .filter(block -> block.getType() == Material.CHEST && deathChests.containsKey(block))
+                .findFirst();
+        if (chestOptional.isEmpty()) { return; }
+
         Block chest = chestOptional.get();
+        event.blockList().remove(chest);
 
-        if (explosionProof) {
-            event.blockList().remove(chest);
-        } else if (dropItemsWhenExploded) {
-            chest.getDrops().clear();
-            dropItems(deathChests.get(chest).getContents(), chest.getLocation());
+        if (!explosionProof) {
+            if (dropItemsWhenExploded) {
+                dropItems(deathChests.get(chest).getContents(), chest.getLocation());
+            }
+            deathChests.remove(chest);
+            chest.setType(Material.AIR);
         }
-
-        deathChests.remove(chest);
     }
 
     /**
