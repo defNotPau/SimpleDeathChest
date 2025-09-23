@@ -8,7 +8,7 @@ softdepend:
  - ExcellentEnchants
 
 commands:
-	deathchest:
-		description: Main command for DeathChest plugin
-		usage: /<command> [list]
-		aliases: [dc]
+  deathchest:
+    description: Main command for DeathChest plugin
+    usage: /<command> [list]
+    aliases: [dc]
