@@ -1,4 +1,5 @@
 package me.pau.plugins.deathchest.handlers;
+
 import me.pau.plugins.deathchest.DeathChest;
 
 import org.bukkit.Bukkit;
@@ -33,7 +34,9 @@ public class Interaction implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Block brokenBlock = event.getBlock();
-        if (!deathChests.containsKey(brokenBlock)) { return; }
+        if (!deathChests.containsKey(brokenBlock)) {
+            return;
+        }
 
         if (playerBreakable) {
             event.setDropItems(false);
@@ -44,16 +47,24 @@ public class Interaction implements Listener {
             return;
         }
 
-        if (!deathChests.get(brokenBlock).isEmpty()) { event.setCancelled(true);}
+        if (!deathChests.get(brokenBlock).isEmpty()) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
     public void onChestOpen(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) { return; }
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
         Block clickedBlock = event.getClickedBlock();
 
-        if (clickedBlock == null) { return; }
-        if (clickedBlock.getType() != Material.CHEST) { return; }
+        if (clickedBlock == null) {
+            return;
+        }
+        if (clickedBlock.getType() != Material.CHEST) {
+            return;
+        }
 
         if (deathChests.containsKey(clickedBlock)) {
             Player player = event.getPlayer();
@@ -64,21 +75,25 @@ public class Interaction implements Listener {
 
     @EventHandler
     public void onChestClose(InventoryCloseEvent event) {
-        if (!deathChests.containsValue(event.getInventory())) { return; }
-        if (!event.getInventory().isEmpty()) { return; }
+        if (!deathChests.containsValue(event.getInventory())) {
+            return;
+        }
+        if (!event.getInventory().isEmpty()) {
+            return;
+        }
 
         Block block = deathChests.get(event.getInventory());
         deathChests.remove(block);
-
+        me.pau.plugins.deathchest.DeathChest.instance.unregisterDeathChest(block);
         block.setType(Material.AIR);
     }
 
     @EventHandler
     public void onBlockExplode(BlockExplodeEvent event) {
-        if (!explosionProof) { return; }
-        event.blockList().removeIf(block ->
-                block.getType() == Material.CHEST && deathChests.containsKey(block)
-        );
+        if (!explosionProof) {
+            return;
+        }
+        event.blockList().removeIf(block -> block.getType() == Material.CHEST && deathChests.containsKey(block));
     }
 
     @EventHandler
@@ -86,7 +101,9 @@ public class Interaction implements Listener {
         Optional<Block> chestOptional = event.blockList().stream()
                 .filter(block -> block.getType() == Material.CHEST && deathChests.containsKey(block))
                 .findFirst();
-        if (chestOptional.isEmpty()) { return; }
+        if (chestOptional.isEmpty()) {
+            return;
+        }
 
         Block chest = chestOptional.get();
         event.blockList().remove(chest);
@@ -101,12 +118,13 @@ public class Interaction implements Listener {
     }
 
     /**
-     * @param items array of items to be dropped
+     * @param items    array of items to be dropped
      * @param location where items will be dropped
      */
     public void dropItems(ItemStack[] items, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null)
+            return;
 
         for (ItemStack item : items) {
             if (item != null && item.getAmount() > 0) {
@@ -116,4 +134,3 @@ public class Interaction implements Listener {
     }
 
 }
-
