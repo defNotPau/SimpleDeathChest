@@ -40,27 +40,32 @@ public class Death implements Listener {
         Location chestLocation;
 
         List<ItemStack> playerDrops = event.getDrops();
-        if (playerDrops.isEmpty()) { return; }
+        if (playerDrops.isEmpty()) {
+            return;
+        }
 
         int chestInventorySize = Math.ceilDiv(playerDrops.size(), 9) * 9;
 
-        Inventory customInventory = (nameVisible) ?
-                Bukkit.createInventory(null, chestInventorySize, Component.text(player.getName())) :
-                Bukkit.createInventory(null, chestInventorySize);
+        Inventory customInventory = (nameVisible)
+                ? Bukkit.createInventory(null, chestInventorySize, Component.text(player.getName()))
+                : Bukkit.createInventory(null, chestInventorySize);
         chestLocation = new Location(
                 player.getWorld(),
                 player.getX(),
-                (player.getY() <= player.getWorld().getMinHeight()) ?
-                        (player.getWorld().getMinHeight() + 1) :
-                        player.getY(),
-                player.getZ()
-        );
+                (player.getY() <= player.getWorld().getMinHeight()) ? (player.getWorld().getMinHeight() + 1)
+                        : player.getY(),
+                player.getZ());
 
         Block block = chestLocation.getBlock();
-        if (block.getType() == Material.CHEST) { block = block.getRelative(BlockFace.UP); }
+        if (block.getType() == Material.CHEST) {
+            block = block.getRelative(BlockFace.UP);
+        }
 
         block.setType(Material.CHEST);
         block.getState().update(true);
+
+        // Register chest with owner and creation time
+        instance.registerDeathChest(block, player.getUniqueId());
 
         if (instance.isExcellentEnchantsEnabled()) {
             Enchantment soulbound = Enchantment.getByKey(NamespacedKey.fromString("minecraft:soulbound"));

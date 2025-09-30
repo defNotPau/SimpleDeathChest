@@ -1,8 +1,14 @@
 name: DeathChest
-version: '1.4.1'
+version: '1.5.1'
 main: me.pau.plugins.deathchest.DeathChest
 api-version: '1.13'
 author: defNotPau
 description: Simple, hopefully efficient and reliable Death Chest plugin so items won't despawn
 softdepend:
  - ExcellentEnchants
+
+commands:
+  deathchest:
+    description: Main command for DeathChest plugin
+    usage: /<command> [list]
+    aliases: [dc]

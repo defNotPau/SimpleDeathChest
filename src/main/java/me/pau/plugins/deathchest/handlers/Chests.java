@@ -1,3 +1,4 @@
+
 package me.pau.plugins.deathchest.handlers;
 
 import me.pau.plugins.deathchest.DeathChest;
@@ -19,15 +20,23 @@ import static me.pau.plugins.deathchest.DeathChest.infoPrint;
 import static me.pau.plugins.deathchest.DeathChest.warnPrint;
 
 public class Chests {
+
+    // Utility to get all blocks with death chests
+    public Set<Block> getAllBlocks() {
+        return deathChests.keySet();
+    }
+
     private final JavaPlugin plugin;
     private final HashMap<Block, Inventory> deathChests = new HashMap<>();
+
     public Chests(DeathChest plugin) {
         this.plugin = plugin;
     }
 
     /**
-     * @param block the chest-block as a key for the inventory
-     * @param inventory the inventory where the player's items are in assigned to the chest
+     * @param block     the chest-block as a key for the inventory
+     * @param inventory the inventory where the player's items are in assigned to
+     *                  the chest
      */
     public void put(Block block, Inventory inventory) {
         deathChests.put(block, inventory);
@@ -35,7 +44,8 @@ public class Chests {
 
     /**
      * @param key block for where the inventory should be in
-     * @return value of the block (key) on the hash map of block, inventory where deathchest information is stored
+     * @return value of the block (key) on the hash map of block, inventory where
+     *         deathchest information is stored
      */
     public Inventory get(Block key) {
         return deathChests.get(key);
@@ -54,13 +64,13 @@ public class Chests {
         return null;
     }
 
-//    /**
-//     * @param block block-key for which inventory will be accessed
-//     * @return array of all items on the inventory from the block
-//     */
-//    public ItemStack[] getItems(Block block) {
-//        return deathChests.get(block).getContents();
-//    }
+    // /**
+    // * @param block block-key for which inventory will be accessed
+    // * @return array of all items on the inventory from the block
+    // */
+    // public ItemStack[] getItems(Block block) {
+    // return deathChests.get(block).getContents();
+    // }
 
     /**
      * @param key block that will be checked if part of the hash map
@@ -71,7 +81,8 @@ public class Chests {
     }
 
     /**
-     * @param value inventory value that will be checked if it is part of the hash map
+     * @param value inventory value that will be checked if it is part of the hash
+     *              map
      * @return whether the inventory is a value of the hash map
      */
     public boolean containsValue(Inventory value) {
@@ -98,12 +109,13 @@ public class Chests {
     }
 
     /**
-     * Saves current state of the hash map containing chests and inventories to a YamlConfiguration
+     * Saves current state of the hash map containing chests and inventories to a
+     * YamlConfiguration
      */
     public void save() {
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
         FileConfiguration emptyConfig = new YamlConfiguration();
-        
+
         try {
             emptyConfig.save(file);
         } catch (IOException e) {
@@ -128,7 +140,8 @@ public class Chests {
     }
 
     /**
-     * Loads the new state of the hash map containing chests and inventories from the saved YamlConfiguration
+     * Loads the new state of the hash map containing chests and inventories from
+     * the saved YamlConfiguration
      */
     public void load() {
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
