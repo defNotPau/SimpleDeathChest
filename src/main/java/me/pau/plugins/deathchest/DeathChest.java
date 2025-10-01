@@ -7,7 +7,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.Inventory;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
@@ -51,7 +50,7 @@ public class DeathChest extends JavaPlugin {
         instance = this;
         infoPrint("I might be working");
 
-        // Config.yml stuffs
+        // Config.yml stuff
         instance.saveDefaultConfig();
         playerBreakable = this.getConfig().getBoolean("chest_interactions.player_breakable", false);
         explosionProof = this.getConfig().getBoolean("chest_interactions.explosion_proof", true);
@@ -60,8 +59,7 @@ public class DeathChest extends JavaPlugin {
 
         nameVisible = this.getConfig().getBoolean("chest_customization.name_on_chest", true);
 
-        // Anything to do with integrations such as variables checking if a plugin is
-        // enabled
+        // Anything to do with integrations
         isExcellentEnchantsEnabled = getServer().getPluginManager().isPluginEnabled("ExcellentEnchants");
 
         // Main class summoning
@@ -100,11 +98,10 @@ public class DeathChest extends JavaPlugin {
 
     // Command handler
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("[SimpleDeathChest] Only players can use this command.");
             return true;
         }
-        Player player = (Player) sender;
         if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
             // List all death chests for this player, and also show unknown owner/time
             int i = 1;
