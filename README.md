@@ -6,6 +6,10 @@
 2. All of their items are deposited onto the chest.
 3. That's it!
 
+## Commands
+- `/deathchest list` or `/dc list` - Lists the location and time since a deathchests was created. If available, additionally displays the chest's owner and time since
+  - Note: After a server reboot, the owner information is lost and any player will see the location of these deathchests (v1.5)
+
 ## Some interesting features:
 - All items fit in the chest! 
   - As there's an special inventory that has 45 total slots, no items will be lost!
