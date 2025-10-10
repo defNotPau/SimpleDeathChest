@@ -2,7 +2,6 @@ package me.pau.plugins.deathchest.handlers;
 
 import me.pau.plugins.deathchest.DeathChest;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -46,9 +44,8 @@ public class Death implements Listener {
 
         int chestInventorySize = Math.ceilDiv(playerDrops.size(), 9) * 9;
 
-        Inventory customInventory = (nameVisible)
-                ? Bukkit.createInventory(null, chestInventorySize, Component.text(player.getName()))
-                : Bukkit.createInventory(null, chestInventorySize);
+        ChestMeta customInventory = new ChestMeta(chestInventorySize, player.getName());
+
         chestLocation = new Location(
                 player.getWorld(),
                 player.getX(),
@@ -63,9 +60,6 @@ public class Death implements Listener {
 
         block.setType(Material.CHEST);
         block.getState().update(true);
-
-        // Register chest with owner and creation time
-        instance.registerDeathChest(block, player.getUniqueId());
 
         if (instance.isExcellentEnchantsEnabled()) {
             Enchantment soulbound = Enchantment.getByKey(NamespacedKey.fromString("minecraft:soulbound"));

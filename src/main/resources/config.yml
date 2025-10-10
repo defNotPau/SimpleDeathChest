@@ -12,9 +12,16 @@ chest_interactions:
   explosion_proof: true
   items_drop_when_exploded: true
 
-# Information on your player's chests
+# Please tell me it's clear enough
 chest_customization:
-  # Should the chest's "creator" name be displayed?
   name_on_chest: true
 
-## More configuration upcoming (1.5 or whenever I remember)
+# Command-related stuff (WIP)
+commands:
+  # If you want for the command to be available for users ;)
+  deathchest-list: true
+
+# more options might be added later on, if you want an option...
+# go to the Modrinth page and make a suggestion in the "Issues"
+# maybe I'll make a better way to do
+

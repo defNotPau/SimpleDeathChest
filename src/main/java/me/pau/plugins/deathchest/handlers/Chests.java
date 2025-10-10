@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.*;
 
 import static me.pau.plugins.deathchest.DeathChest.infoPrint;
@@ -27,7 +28,7 @@ public class Chests {
     }
 
     private final JavaPlugin plugin;
-    private final HashMap<Block, Inventory> deathChests = new HashMap<>();
+    private final HashMap<Block, ChestMeta> deathChests = new HashMap<>();
 
     public Chests(DeathChest plugin) {
         this.plugin = plugin;
@@ -38,7 +39,7 @@ public class Chests {
      * @param inventory the inventory where the player's items are in assigned to
      *                  the chest
      */
-    public void put(Block block, Inventory inventory) {
+    public void put(Block block, ChestMeta inventory) {
         deathChests.put(block, inventory);
     }
 
@@ -47,7 +48,7 @@ public class Chests {
      * @return value of the block (key) on the hash map of block, inventory where
      *         deathchest information is stored
      */
-    public Inventory get(Block key) {
+    public ChestMeta get(Block key) {
         return deathChests.get(key);
     }
 
@@ -57,7 +58,7 @@ public class Chests {
      */
     public Block get(Inventory value) {
         for (Block i : deathChests.keySet()) {
-            if (deathChests.get(i) == value) {
+            if (deathChests.get(i).getInventory() == value) {
                 return i;
             }
         }
@@ -86,7 +87,16 @@ public class Chests {
      * @return whether the inventory is a value of the hash map
      */
     public boolean containsValue(Inventory value) {
-        return deathChests.containsValue(value);
+        for (ChestMeta inventory : deathChests.values()) {
+            if (inventory.getInventory() == value) {
+                return true;
+            }
+        }
+        return  false;
+    }
+
+    public Set<Map.Entry<Block, ChestMeta>> entrySet() {
+        return deathChests.entrySet();
     }
 
     /**
@@ -124,11 +134,12 @@ public class Chests {
 
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
         for (Block block : deathChests.keySet()) {
-            String locString = block.getLocation().getWorld().getName() + "," +
-                    block.getX() + "," + block.getY() + "," + block.getZ();
-            Inventory inventory = deathChests.get(block);
+            String dataString = block.getLocation().getWorld().getName() + "," +
+                    block.getX() + "," + block.getY() + "," + block.getZ() + "," + 
+                    deathChests.get(block).getOwnerName() + "," + deathChests.get(block).getCreated().toString();
+            ChestMeta inventory = deathChests.get(block);
 
-            config.set(locString, inventory.getContents());
+            config.set(dataString, inventory.getInventory().getContents());
         }
 
         try {
@@ -148,21 +159,30 @@ public class Chests {
 
         if (file.exists()) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-            for (String locString : config.getKeys(false)) {
-                String[] locParts = locString.split(",");
+            for (String dataString : config.getKeys(false)) {
+                String[] locParts = dataString.split(",");
                 World world = Bukkit.getWorld(locParts[0]);
                 int x = Integer.parseInt(locParts[1]);
                 int y = Integer.parseInt(locParts[2]);
                 int z = Integer.parseInt(locParts[3]);
+                String name = (locParts[4] == null)
+                        ? "unknown"
+                        : locParts[4];
+                String instant = (locParts[5] == null)
+                        ? Instant.now().toString()
+                        : locParts[5];
+
+                warnPrint("Your deathchest save file is not updated!!!!!!!!!!!!");
+                warnPrint("If you can, delete it, it's on (server folder)/plugins/deathchest BUT this WILL PERMANENTLY DELETE THE DEATHCHESTS, be careful and drink water ;)");
 
                 Location location = new Location(world, x, y, z);
                 Block block = location.getBlock();
 
-                List<ItemStack> contents = (List<ItemStack>) config.get(locString);
-
+                List<ItemStack> contents = (List<ItemStack>) config.get(dataString);
                 assert contents != null;
+
                 int chestInventorySize = Math.ceilDiv(contents.size(), 9) * 9;
-                Inventory customInventory = Bukkit.createInventory(null, chestInventorySize);
+                ChestMeta customInventory = new ChestMeta(chestInventorySize, name, Instant.parse(instant));
                 customInventory.setContents(contents.toArray(new ItemStack[0]));
 
                 deathChests.put(block, customInventory);

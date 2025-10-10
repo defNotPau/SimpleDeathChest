@@ -7,10 +7,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.block.Block;
+import org.jetbrains.annotations.NotNull;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class DeathChest extends JavaPlugin {
@@ -32,19 +35,6 @@ public class DeathChest extends JavaPlugin {
     Interaction interaction;
     Chests chests;
 
-    // Track chest creation times and owners
-    private final Map<Block, ChestMeta> chestMetaMap = new HashMap<>();
-
-    public static class ChestMeta {
-        public final UUID owner;
-        public final Instant created;
-
-        public ChestMeta(UUID owner, Instant created) {
-            this.owner = owner;
-            this.created = created;
-        }
-    }
-
     @Override
     public void onEnable() {
         instance = this;
@@ -62,16 +52,9 @@ public class DeathChest extends JavaPlugin {
         // Anything to do with integrations
         isExcellentEnchantsEnabled = getServer().getPluginManager().isPluginEnabled("ExcellentEnchants");
 
-        // Main class summoning
+        // Chests class summoning
         chests = new Chests(instance);
-        chests.load();
-
-        // Register all loaded chests as tracked (owner/time unknown)
-        for (Block block : chests.getAllBlocks()) {
-            if (!chestMetaMap.containsKey(block)) {
-                chestMetaMap.put(block, new ChestMeta(null, null));
-            }
-        }
+        // chests.load();
 
         // If there are any chests loaded onEnable, log the count
         if (!chests.getAllBlocks().isEmpty()) {
@@ -83,21 +66,13 @@ public class DeathChest extends JavaPlugin {
         chests.restoreInWorld();
 
         // Register command
-        getCommand("deathchest").setExecutor(this);
+        Objects.requireNonNull(getCommand("deathchest")).setExecutor(this);
     }
 
     // Called by Death handler when a chest is created
-    public void registerDeathChest(Block block, UUID owner) {
-        chestMetaMap.put(block, new ChestMeta(owner, Instant.now()));
-    }
-
-    // Called by Death handler when a chest is removed
-    public void unregisterDeathChest(Block block) {
-        chestMetaMap.remove(block);
-    }
 
     // Command handler
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage("[SimpleDeathChest] Only players can use this command.");
             return true;
@@ -107,14 +82,14 @@ public class DeathChest extends JavaPlugin {
             int i = 1;
             player.sendMessage("[SimpleDeathChest] Your death chests are at:");
             Instant now = Instant.now();
-            for (Map.Entry<Block, ChestMeta> entry : chestMetaMap.entrySet()) {
+            for (Map.Entry<Block, ChestMeta> entry : chests.entrySet()) {
                 Block block = entry.getKey();
                 ChestMeta meta = entry.getValue();
-                if (meta.owner == null || meta.created == null) {
+                if (meta.getOwner() == null || meta.getCreated() == null) {
                     player.sendMessage(String.format("[SimpleDeathChest] %d. X:%d, Y:%d, Z:%d (unknown owner/time)",
                         i++, block.getX(), block.getY(), block.getZ()));
-                } else if (meta.owner.equals(player.getUniqueId())) {
-                    Duration duration = Duration.between(meta.created, now);
+                } else if (meta.getOwner().equals(player.getUniqueId())) {
+                    Duration duration = Duration.between(meta.getCreated(), now);
                     String timeAgo = formatDuration(duration);
                     player.sendMessage(String.format("[SimpleDeathChest] %d. X:%d, Y:%d, Z:%d (%s ago)",
                         i++, block.getX(), block.getY(), block.getZ(), timeAgo));

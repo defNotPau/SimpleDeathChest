@@ -41,13 +41,13 @@ public class Interaction implements Listener {
         if (playerBreakable) {
             event.setDropItems(false);
             if (dropItemsWhenBroken) {
-                dropItems(deathChests.get(brokenBlock).getContents(), brokenBlock.getLocation());
+                dropItems(deathChests.get(brokenBlock).getInventory().getContents(), brokenBlock.getLocation());
             }
             deathChests.remove(brokenBlock);
             return;
         }
 
-        if (!deathChests.get(brokenBlock).isEmpty()) {
+        if (!deathChests.get(brokenBlock).getInventory().isEmpty()) {
             event.setCancelled(true);
         }
     }
@@ -68,7 +68,7 @@ public class Interaction implements Listener {
 
         if (deathChests.containsKey(clickedBlock)) {
             Player player = event.getPlayer();
-            player.openInventory(deathChests.get(clickedBlock));
+            player.openInventory(deathChests.get(clickedBlock).getInventory());
             event.setCancelled(true);
         }
     }
@@ -84,7 +84,6 @@ public class Interaction implements Listener {
 
         Block block = deathChests.get(event.getInventory());
         deathChests.remove(block);
-        me.pau.plugins.deathchest.DeathChest.instance.unregisterDeathChest(block);
         block.setType(Material.AIR);
     }
 
@@ -110,7 +109,7 @@ public class Interaction implements Listener {
 
         if (!explosionProof) {
             if (dropItemsWhenExploded) {
-                dropItems(deathChests.get(chest).getContents(), chest.getLocation());
+                dropItems(deathChests.get(chest).getInventory().getContents(), chest.getLocation());
             }
             deathChests.remove(chest);
             chest.setType(Material.AIR);
@@ -132,5 +131,4 @@ public class Interaction implements Listener {
             }
         }
     }
-
 }
