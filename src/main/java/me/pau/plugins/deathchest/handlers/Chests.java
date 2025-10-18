@@ -1,4 +1,3 @@
-
 package me.pau.plugins.deathchest.handlers;
 
 import me.pau.plugins.deathchest.DeathChest;
@@ -17,8 +16,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
 
-import static me.pau.plugins.deathchest.DeathChest.infoPrint;
-import static me.pau.plugins.deathchest.DeathChest.warnPrint;
+import static me.pau.plugins.deathchest.DeathChest.*;
 
 public class Chests {
 
@@ -134,12 +132,12 @@ public class Chests {
 
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
         for (Block block : deathChests.keySet()) {
-            String dataString = block.getLocation().getWorld().getName() + "," +
-                    block.getX() + "," + block.getY() + "," + block.getZ() + "," + 
-                    deathChests.get(block).getOwnerName() + "," + deathChests.get(block).getCreated().toString();
-            ChestMeta inventory = deathChests.get(block);
+            String dataString = block.getLocation().getWorld().getName() + "`" +
+                    block.getX() + "`" + block.getY() + "`" + block.getZ() + "`" + 
+                    deathChests.get(block).getOwnerName() + "`" + deathChests.get(block).getCreated().toEpochMilli();
+            Inventory inventory = deathChests.get(block).getInventory();
 
-            config.set(dataString, inventory.getInventory().getContents());
+            config.set(dataString, inventory.getContents());
         }
 
         try {
@@ -160,20 +158,35 @@ public class Chests {
         if (file.exists()) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(file);
             for (String dataString : config.getKeys(false)) {
-                String[] locParts = dataString.split(",");
+                String[] locParts = dataString.split("`");
+                infoPrint(String.valueOf(locParts.length));
+                if (locParts.length == 1) {
+                    warnPrint("Your save data is not updated, don't worry ;) (or worry, i'll try fixing it)");
+                    locParts = dataString.split(",");
+                    if (locParts.length != 4) {
+                        error("what have you're done");
+                    }
+                }
+
+                if (locParts.length < 4) {
+                    warnPrint("Your deathchest save file is not updated!!!!!!!!!!!!");
+                    warnPrint("If you can, delete it, it's on (server folder)/plugins/deathchest BUT this WILL PERMANENTLY DELETE THE DEATHCHESTS, be careful and drink water ;)");
+                    error("Critical, Save file deprecated (like it's old old)");
+                    return;
+                } else if (locParts.length < 6) {
+                    warnPrint("Your deathchest save file is not updated!!!!!!!!!!!!");
+                    warnPrint("If you can, delete it, it's on (server folder)/plugins/deathchest BUT this WILL PERMANENTLY DELETE THE DEATHCHESTS, be careful and drink water ;)");
+                }
                 World world = Bukkit.getWorld(locParts[0]);
                 int x = Integer.parseInt(locParts[1]);
                 int y = Integer.parseInt(locParts[2]);
                 int z = Integer.parseInt(locParts[3]);
-                String name = (locParts[4] == null)
+                String name = (locParts.length < 6)
                         ? "unknown"
                         : locParts[4];
-                String instant = (locParts[5] == null)
-                        ? Instant.now().toString()
-                        : locParts[5];
-
-                warnPrint("Your deathchest save file is not updated!!!!!!!!!!!!");
-                warnPrint("If you can, delete it, it's on (server folder)/plugins/deathchest BUT this WILL PERMANENTLY DELETE THE DEATHCHESTS, be careful and drink water ;)");
+                Instant instant = (locParts.length < 6)
+                        ? Instant.now()
+                        : Instant.ofEpochMilli(Long.parseLong(locParts[5]));
 
                 Location location = new Location(world, x, y, z);
                 Block block = location.getBlock();
@@ -182,7 +195,7 @@ public class Chests {
                 assert contents != null;
 
                 int chestInventorySize = Math.ceilDiv(contents.size(), 9) * 9;
-                ChestMeta customInventory = new ChestMeta(chestInventorySize, name, Instant.parse(instant));
+                ChestMeta customInventory = new ChestMeta(chestInventorySize, name, instant);
                 customInventory.setContents(contents.toArray(new ItemStack[0]));
 
                 deathChests.put(block, customInventory);

@@ -17,7 +17,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 
 import static me.pau.plugins.deathchest.DeathChest.instance;
-import static me.pau.plugins.deathchest.DeathChest.nameVisible;
 
 import java.util.Iterator;
 import java.util.List;

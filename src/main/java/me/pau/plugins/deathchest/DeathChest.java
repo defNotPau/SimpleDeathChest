@@ -1,6 +1,7 @@
 package me.pau.plugins.deathchest;
 
 import me.pau.plugins.deathchest.handlers.*;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import org.bukkit.command.Command;
@@ -11,10 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 
 public class DeathChest extends JavaPlugin {
     public static DeathChest instance;
@@ -54,7 +53,7 @@ public class DeathChest extends JavaPlugin {
 
         // Chests class summoning
         chests = new Chests(instance);
-        // chests.load();
+        chests.load();
 
         // If there are any chests loaded onEnable, log the count
         if (!chests.getAllBlocks().isEmpty()) {
@@ -141,6 +140,20 @@ public class DeathChest extends JavaPlugin {
      */
     static public void warnPrint(String msg) {
         instance.getLogger().warning(msg);
+    }
+
+    /**
+     * IMPORTANT,
+     * STOPS THE PLUGIN
+     * COMPLETELY
+     *
+     * @param msg message to be logged as ERROR on the server's console as the plugin shuts down
+     */
+    static public void error(String msg) {
+        instance.getLogger().severe(msg);
+        instance.getLogger().warning("Plugin is shutting down due to a critical error");
+        instance.getLogger().info("(Ignore error below that says \"The plugin classloader for DeathChest has thrown a zip file error\")");
+        Bukkit.getPluginManager().disablePlugin(instance);
     }
 
     /**
