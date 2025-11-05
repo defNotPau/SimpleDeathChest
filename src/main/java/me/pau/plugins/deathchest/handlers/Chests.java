@@ -159,24 +159,24 @@ public class Chests {
             FileConfiguration config = YamlConfiguration.loadConfiguration(file);
             for (String dataString : config.getKeys(false)) {
                 String[] locParts = dataString.split("`");
-                infoPrint(String.valueOf(locParts.length));
                 if (locParts.length == 1) {
                     warnPrint("Your save data is not updated, don't worry ;) (or worry, i'll try fixing it)");
                     locParts = dataString.split(",");
                     if (locParts.length != 4) {
                         error("what have you done");
                     }
+                } else {
+                    if (locParts.length < 4) {
+                        warnPrint("Your deathchest save file is not updated!!!!!!!!!!!!");
+                        warnPrint("If you can, delete it, it's on (server folder)/plugins/deathchest BUT this WILL PERMANENTLY DELETE THE DEATHCHESTS, be careful and drink water ;)");
+                        error("Critical, Save file deprecated (like it's old old)");
+                        return;
+                    } else if (locParts.length < 6) {
+                        warnPrint("Your deathchest save file is not updated!!!!!!!!!!!!");
+                        warnPrint("If you can, delete it, it's on (server folder)/plugins/deathchest BUT this WILL PERMANENTLY DELETE THE DEATHCHESTS, be careful and drink water ;)");
+                    }
                 }
 
-                if (locParts.length < 4) {
-                    warnPrint("Your deathchest save file is not updated!!!!!!!!!!!!");
-                    warnPrint("If you can, delete it, it's on (server folder)/plugins/deathchest BUT this WILL PERMANENTLY DELETE THE DEATHCHESTS, be careful and drink water ;)");
-                    error("Critical, Save file deprecated (like it's old old)");
-                    return;
-                } else if (locParts.length < 6) {
-                    warnPrint("Your deathchest save file is not updated!!!!!!!!!!!!");
-                    warnPrint("If you can, delete it, it's on (server folder)/plugins/deathchest BUT this WILL PERMANENTLY DELETE THE DEATHCHESTS, be careful and drink water ;)");
-                }
                 World world = Bukkit.getWorld(locParts[0]);
                 int x = Integer.parseInt(locParts[1]);
                 int y = Integer.parseInt(locParts[2]);

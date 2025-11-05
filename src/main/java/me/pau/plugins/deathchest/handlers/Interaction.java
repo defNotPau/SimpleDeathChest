@@ -1,13 +1,11 @@
 package me.pau.plugins.deathchest.handlers;
 
 import me.pau.plugins.deathchest.DeathChest;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
