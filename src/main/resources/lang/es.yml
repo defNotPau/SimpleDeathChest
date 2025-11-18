@@ -1,0 +1,6 @@
+list:
+  non-player: "Solo jugadores pueden usar este comando"
+  start: "Tus (o de dueño desconocido) cofres de muerte son:"
+  unknown: "dueño/tiempo desconocido"
+  yours: "tuyo"
+
