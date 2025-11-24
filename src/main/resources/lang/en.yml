@@ -1,6 +1,8 @@
 list:
   non-player: "Only players can use this command."
+  no-deathchests: "You have no active death chests."
   start: "Your (or unknown owner) death chests are at:"
   unknown: "unknown owner/time"
   yours: "yours"
+  usage: "Usage"
 

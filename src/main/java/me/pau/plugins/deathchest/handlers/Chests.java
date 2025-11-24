@@ -62,15 +62,6 @@ public class Chests {
         }
         return null;
     }
-
-    // /**
-    // * @param block block-key for which inventory will be accessed
-    // * @return array of all items on the inventory from the block
-    // */
-    // public ItemStack[] getItems(Block block) {
-    // return deathChests.get(block).getContents();
-    // }
-
     /**
      * @param key block that will be checked if part of the hash map
      * @return whether the block is part of the hash map
@@ -191,12 +182,12 @@ public class Chests {
                 Location location = new Location(world, x, y, z);
                 Block block = location.getBlock();
 
-                List<ItemStack> contents = (List<ItemStack>) config.get(dataString);
+                ItemStack[] contents = (ItemStack[]) config.get(dataString);
                 assert contents != null;
 
-                int chestInventorySize = Math.ceilDiv(contents.size(), 9) * 9;
+                int chestInventorySize = Math.ceilDiv(contents.length, 9) * 9;
                 ChestMeta customInventory = new ChestMeta(chestInventorySize, name, instant);
-                customInventory.setContents(contents.toArray(new ItemStack[0]));
+                customInventory.setContents(contents);
 
                 deathChests.put(block, customInventory);
             }

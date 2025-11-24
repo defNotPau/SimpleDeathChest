@@ -28,34 +28,34 @@ public class ChestList implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.start", null)));
+            sender.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.start")));
             return true;
         }
         player.locale();
         if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
             // List all death chests for this player, and also show unknown owner/time
             int i = 1;
-            player.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.start", player)));
+            player.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.start")));
             Instant now = Instant.now();
             for (Map.Entry<Block, ChestMeta> entry : chests.entrySet()) {
                 Block block = entry.getKey();
                 ChestMeta meta = entry.getValue();
                 if (Objects.equals(meta.getOwnerName(), "unknown") || meta.getCreated() == null) {
                     player.sendMessage(String.format("[SimpleDeathChest] %d. X:%d, Y:%d, Z:%d (%s)",
-                            i++, block.getX(), block.getY(), block.getZ(), lang.translate("list.unknown", player)));
+                            i++, block.getX(), block.getY(), block.getZ(), lang.translate("list.unknown")));
                 } else if (meta.getOwner().equals(player.getUniqueId())) {
                     Duration duration = Duration.between(meta.getCreated(), now);
                     String timeAgo = formatDuration(duration);
                     player.sendMessage(String.format("[SimpleDeathChest] %d. X:%d, Y:%d, Z:%d (%s ago) (%s)",
-                            i++, block.getX(), block.getY(), block.getZ(), timeAgo, lang.translate("list.yours", player)));
+                            i++, block.getX(), block.getY(), block.getZ(), timeAgo, lang.translate("list.yours")));
                 }
             }
             if (i == 1) {
-                player.sendMessage("[SimpleDeathChest] You have no active death chests.");
+                player.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.no-deathchest")));
             }
             return true;
         }
-        player.sendMessage("[SimpleDeathChest] Usage: /deathchest list");
+        player.sendMessage(String.format("[SimpleDeathChest] %s: /deathchest list", lang.translate("list.usage")));
         return true;
     }
 

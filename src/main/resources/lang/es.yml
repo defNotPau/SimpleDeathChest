@@ -1,6 +1,8 @@
 list:
   non-player: "Solo jugadores pueden usar este comando"
+  no-deathchests: "No tienes cofres de muerte activos."
   start: "Tus (o de dueño desconocido) cofres de muerte son:"
   unknown: "dueño/tiempo desconocido"
   yours: "tuyo"
+  usage: "Uso"
 
