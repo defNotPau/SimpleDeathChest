@@ -182,12 +182,12 @@ public class Chests {
                 Location location = new Location(world, x, y, z);
                 Block block = location.getBlock();
 
-                ItemStack[] contents = (ItemStack[]) config.get(dataString);
+                List<ItemStack> contents = (List<ItemStack>) config.get(dataString);
                 assert contents != null;
 
-                int chestInventorySize = Math.ceilDiv(contents.length, 9) * 9;
+                int chestInventorySize = Math.ceilDiv(contents.size(), 9) * 9;
                 ChestMeta customInventory = new ChestMeta(chestInventorySize, name, instant);
-                customInventory.setContents(contents);
+                customInventory.setContents(contents.toArray(new ItemStack[0]));
 
                 deathChests.put(block, customInventory);
             }
