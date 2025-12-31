@@ -15,6 +15,8 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Objects;
 
+import static me.pau.plugins.deathchest.DeathChest.infoPrint;
+
 // Original implementation by nickmartin1ee7 on github
 public class ChestList implements CommandExecutor {
     private final Chests chests;
@@ -28,7 +30,7 @@ public class ChestList implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.start")));
+            sender.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.nonPlayer")));
             return true;
         }
         player.locale();
@@ -38,20 +40,24 @@ public class ChestList implements CommandExecutor {
             player.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.start")));
             Instant now = Instant.now();
             for (Map.Entry<Block, ChestMeta> entry : chests.entrySet()) {
+                infoPrint("for Map.Entry<Block, ChestMeta> entry : chests.entrySet()");
                 Block block = entry.getKey();
                 ChestMeta meta = entry.getValue();
                 if (Objects.equals(meta.getOwnerName(), "unknown") || meta.getCreated() == null) {
+                    infoPrint("if Objects.equals(meta.getOwnerName(), \"unknown\") || meta.getCreated() == null");
                     player.sendMessage(String.format("[SimpleDeathChest] %d. X:%d, Y:%d, Z:%d (%s)",
                             i++, block.getX(), block.getY(), block.getZ(), lang.translate("list.unknown")));
                 } else if (meta.getOwner().equals(player.getUniqueId())) {
+                    infoPrint("else if meta.getOwner().equals(player.getUniqueId())");
                     Duration duration = Duration.between(meta.getCreated(), now);
                     String timeAgo = formatDuration(duration);
-                    player.sendMessage(String.format("[SimpleDeathChest] %d. X:%d, Y:%d, Z:%d (%s ago) (%s)",
-                            i++, block.getX(), block.getY(), block.getZ(), timeAgo, lang.translate("list.yours")));
+                    player.sendMessage(String.format("[SimpleDeathChest] %d. X:%d, Y:%d, Z:%d (%s %s) (%s)",
+                            i++, block.getX(), block.getY(), block.getZ(), timeAgo, lang.translate("list.noDeathchest"), lang.translate("list.yours")));
                 }
             }
             if (i == 1) {
-                player.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.no-deathchest")));
+                infoPrint("if i == 1");
+                player.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.noDeathchest")));
             }
             return true;
         }

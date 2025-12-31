@@ -1,8 +1,29 @@
+# Translation by: defNotPau
+
 list:
-  non-player: "Solo jugadores pueden usar este comando"
-  no-deathchests: "No tienes cofres de muerte activos."
-  start: "Tus (o de dueño desconocido) cofres de muerte son:"
+  nonPlayer: "Solo jugadores pueden usar este comando"
+  noDeathchests: "No tienes cofres de muerte activos."
+  start: "Los cofres de muerte encontrados estan en:"
   unknown: "dueño/tiempo desconocido"
+  ago: "pasados"
   yours: "tuyo"
   usage: "Uso"
 
+
+
+
+# WORK IN PROGRESS, if translating DO NOT mind
+
+# Translation explanation: as straightforward as it might seem...
+# what about minutesAgo ??
+# basically, not all languages work the same, even improvement might be needed later on
+# but for example: Spanish!
+# X minutes ago -> hace X minutos
+# so what does that translate into here?
+# the format will be a list ["keyword time", "word a", "word b"]
+# in english, it'll be put as "keyword time" "word a" "word b"
+# (keyword time is literally putting a string that says "time")
+
+# If you have any doubts, please make an issue over on GitHub
+# https://github.com/defNotPau/SimpleDeathChest/issues
+# or if I've made any documentation on the topic... find it, good luck ;)
