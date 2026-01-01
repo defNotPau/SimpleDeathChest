@@ -45,11 +45,14 @@ public class Death implements Listener {
 
         ChestMeta customInventory = new ChestMeta(chestInventorySize, player.getName());
 
+        double chestY = player.getY();
+        if (player.getY() <= player.getWorld().getMinHeight()) { chestY = player.getWorld().getMinHeight() + 1; }
+        if (player.getY() >= player.getWorld().getMaxHeight()) { chestY = player.getWorld().getMaxHeight() - 1; }
+
         chestLocation = new Location(
                 player.getWorld(),
                 player.getX(),
-                (player.getY() <= player.getWorld().getMinHeight()) ? (player.getWorld().getMinHeight() + 1)
-                        : player.getY(),
+                chestY,
                 player.getZ());
 
         Block block = chestLocation.getBlock();

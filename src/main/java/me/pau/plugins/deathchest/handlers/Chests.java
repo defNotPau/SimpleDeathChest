@@ -179,7 +179,12 @@ public class Chests {
                         ? Instant.now()
                         : Instant.ofEpochMilli(Long.parseLong(locParts[5]));
 
-                Location location = new Location(world, x, y, z);
+                assert world != null;
+                double locY = y;
+                if (y <= world.getMinHeight()) { locY = world.getMinHeight() + 1; }
+                if (y >= world.getMaxHeight()) { locY = world.getMaxHeight() - 1; }
+
+                Location location = new Location(world, x, locY, z);
                 Block block = location.getBlock();
 
                 List<ItemStack> contents = (List<ItemStack>) config.get(dataString);
