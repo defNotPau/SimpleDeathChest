@@ -85,6 +85,10 @@ public class DeathChest extends JavaPlugin {
         instance.getLogger().warning(msg);
     }
 
+    static public void severePrint(String msg) {
+        instance.getLogger().severe(msg);
+    }
+
     /**
      * IMPORTANT,
      * STOPS THE PLUGIN

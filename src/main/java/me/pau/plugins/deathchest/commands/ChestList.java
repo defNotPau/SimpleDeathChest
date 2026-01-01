@@ -52,7 +52,7 @@ public class ChestList implements CommandExecutor {
                     Duration duration = Duration.between(meta.getCreated(), now);
                     String timeAgo = formatDuration(duration);
                     player.sendMessage(String.format("[SimpleDeathChest] %d. X:%d, Y:%d, Z:%d (%s %s) (%s)",
-                            i++, block.getX(), block.getY(), block.getZ(), timeAgo, lang.translate("list.noDeathchest"), lang.translate("list.yours")));
+                            i++, block.getX(), block.getY(), block.getZ(), timeAgo, lang.translate("list.ago"), lang.translate("list.yours")));
                 }
             }
             if (i == 1) {

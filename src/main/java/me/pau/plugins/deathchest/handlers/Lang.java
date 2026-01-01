@@ -6,7 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.util.Objects;
 
-import static me.pau.plugins.deathchest.DeathChest.language;
+import static me.pau.plugins.deathchest.DeathChest.*;
 
 public class Lang {
     private final FileConfiguration mainLang;
@@ -34,6 +34,13 @@ public class Lang {
     }
 
     public String translate(String key) {
-        return Objects.requireNonNull(mainLang.get(key)).toString();
+        if (mainLang.get(key) != null) {
+            return Objects.requireNonNull(mainLang.get(key)).toString();
+        } else {
+            severePrint("[Critical] Translation not found, but do not worry ;)");
+            severePrint("[Correction] go to plugins/DeathChest/lang and delete all languages there, then restart the server");
+            warnPrint("Warning, /deathchest list command won't work exactly as intended");
+            return "uhh";
+        }
     }
 }
