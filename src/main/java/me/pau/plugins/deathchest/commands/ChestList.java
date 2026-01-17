@@ -33,7 +33,6 @@ public class ChestList implements CommandExecutor {
             sender.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.nonPlayer")));
             return true;
         }
-        player.locale();
         if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
             // List all death chests for this player, and also show unknown owner/time
             int i = 1;
