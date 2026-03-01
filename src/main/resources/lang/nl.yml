@@ -1,0 +1,11 @@
+# Translation by: BlokjesbouwerJD
+
+list:
+  nonPlayer: "Enkel spelers kunnen dit commando gebruiken."
+  noDeathchests: "Je hebt geen active dood-kisten."
+  start: "Je dood-kisten zijn te vinden op:"
+  unknown: "onbekende Eigenaar/tijd"
+  ago: "geleden"
+  yours: "jouw"
+  usage: "Usage"
+
