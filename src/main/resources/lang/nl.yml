@@ -1,4 +1,4 @@
-# Translation by: BlokjesbouwerJD
+# vertaling door: BlokjesbouwerJD
 
 list:
   nonPlayer: "Enkel spelers kunnen dit commando gebruiken."
@@ -9,3 +9,5 @@ list:
   yours: "jouw"
   usage: "Usage"
 
+# Als er onduidelijkheden zijn, maak dan een issue aan op GitHub
+# https://github.com/defNotPau/SimpleDeathChest/issues
