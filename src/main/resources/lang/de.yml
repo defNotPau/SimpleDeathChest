@@ -10,7 +10,7 @@ list:
 
 time:
   ago: "vor"
-  ago-after: true
+  ago-after: false
 
   minute: "minute"
   minutes: "minuten"
