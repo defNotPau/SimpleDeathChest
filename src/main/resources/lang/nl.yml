@@ -12,6 +12,16 @@ time:
   ago: "geleden"
   ago-after: true
 
+  minute: "minuut"
+  minutes: "minuten"
+
+  hour: "uur"
+  hours: "uren"
+
+  day: "dag"
+  days: "dagen"
+
+
 # Als er onduidelijkheden zijn, maak dan een issue aan op GitHub
 # https://github.com/defNotPau/SimpleDeathChest/issues
 
