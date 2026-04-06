@@ -9,5 +9,15 @@ list:
   yours: "tuyo"
   usage: "Uso"
 
+time:
+  minute: "minuto"
+  minutes: "minutos"
+
+  hour: "hora"
+  hours: "horas"
+
+  day: "día"
+  days: "días"
+
 # Si tienes alguna duda, ve a GitHub y haz un Issue
 # https://github.com/defNotPau/SimpleDeathChest/issues
