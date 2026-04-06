@@ -5,12 +5,12 @@ list:
   noDeathchests: "Du hast keine aktive death-chests."
   start: "die gefundenen death-chests sind an:"
   unknown: "unbekkante Halter/Zeit"
-  ago: "vor"
   yours: "deine"
   usage: "nutzung"
 
 time:
-  seconds: "sekunden"
+  ago: "vor"
+  ago-after: true
 
   minute: "minute"
   minutes: "minuten"
