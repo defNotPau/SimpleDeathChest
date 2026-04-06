@@ -1,4 +1,4 @@
-# Translation by: Geh1rnf1ck
+# Translation by: 
 
 list:
   nonPlayer: "Nur spieler können diesen Befehl nutzen."
@@ -20,6 +20,6 @@ time:
 
   day: "tag"
   days: "tagen"
-
-# If you have any doubts, please make an issue over on GitHub
+  
+#Wenn sie Zweifel haben, machen sie bitte ein Issue auf GitHub
 # https://github.com/defNotPau/SimpleDeathChest/issues
