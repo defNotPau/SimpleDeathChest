@@ -2,7 +2,7 @@
 
 general:
   # please tell me you can understand this...
-  # currently available: Spanish: "es", English: "en"
+  # currently available: Spanish: "es", English: "en", German (Germany) "de", Dutch "nl"
   language: "en"
 
 # player interactions with the chest

@@ -1,6 +1,5 @@
 package me.pau.plugins.deathchest.handlers;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -19,20 +18,20 @@ public class ChestMeta {
     public ChestMeta(int size, String ownerName) {
         this.ownerName = ownerName;
         this.inventory = (nameVisible)
-                ? Bukkit.createInventory(null, size, Component.text(ownerName))
+                ? Bukkit.createInventory(null, size, ownerName)
                 : Bukkit.createInventory(null, size);
 
-        this.owner = Bukkit.getPlayerUniqueId(ownerName);
+        this.owner = Bukkit.getOfflinePlayer(ownerName).getUniqueId();
         this.created = Instant.now();
     }
 
     public ChestMeta(int size, String ownerName, Instant instant) {
         this.ownerName = ownerName;
         this.inventory = (nameVisible)
-                ? Bukkit.createInventory(null, size, Component.text(ownerName))
+                ? Bukkit.createInventory(null, size, ownerName)
                 : Bukkit.createInventory(null, size);
 
-        this.owner = Bukkit.getPlayerUniqueId(ownerName);
+        this.owner = Bukkit.getOfflinePlayer(ownerName).getUniqueId();
         this.created = instant;
     }
 

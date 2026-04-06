@@ -30,10 +30,9 @@ public class Death implements Listener {
         this.deathChests = deathChests;
     }
 
-    @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         Location chestLocation;
 
         List<ItemStack> playerDrops = event.getDrops();
@@ -45,15 +44,15 @@ public class Death implements Listener {
 
         ChestMeta customInventory = new ChestMeta(chestInventorySize, player.getName());
 
-        double chestY = player.getY();
-        if (player.getY() <= player.getWorld().getMinHeight()) { chestY = player.getWorld().getMinHeight() + 1; }
-        if (player.getY() >= player.getWorld().getMaxHeight()) { chestY = player.getWorld().getMaxHeight() - 1; }
+        double chestY = player.getLocation().getY();
+        if (player.getLocation().getY() <= player.getWorld().getMinHeight()) { chestY = player.getWorld().getMinHeight() + 1; }
+        if (player.getLocation().getY() >= player.getWorld().getMaxHeight()) { chestY = player.getWorld().getMaxHeight() - 1; }
 
         chestLocation = new Location(
                 player.getWorld(),
-                player.getX(),
+                player.getLocation().getX(),
                 chestY,
-                player.getZ());
+                player.getLocation().getZ());
 
         Block block = chestLocation.getBlock();
         if (block.getType() == Material.CHEST) {
