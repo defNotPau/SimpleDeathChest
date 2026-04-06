@@ -39,8 +39,6 @@ list:
   usage: "Usage"
 
 time:
-  seconds: "seconds"
-
   minute: "minute"
   minutes: "minutes"
 

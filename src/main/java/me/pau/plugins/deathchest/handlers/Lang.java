@@ -10,6 +10,7 @@ import static me.pau.plugins.deathchest.DeathChest.*;
 
 public class Lang {
     private final FileConfiguration mainLang;
+    private final FileConfiguration fallbackLang;
     private final DeathChest plugin;
 
     private void ensureLangExists(String langCode) {
@@ -25,6 +26,7 @@ public class Lang {
         this.plugin = plugin;
         ensureLangExists("en");
         this.mainLang = loadLang(language);
+        this.fallbackLang = loadLang("en");
     }
 
     private FileConfiguration loadLang(String langCode) {
@@ -40,7 +42,7 @@ public class Lang {
             severePrint("[Critical] Translation not found, but do not worry ;)");
             severePrint("[Correction] go to plugins/DeathChest/lang and delete all languages there, then restart the server");
             warnPrint("Warning, /deathchest list command won't work exactly as intended");
-            return "uhh";
+            return Objects.requireNonNull(fallbackLang.get(key)).toString();
         }
     }
 }

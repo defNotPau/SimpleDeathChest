@@ -64,15 +64,15 @@ public class ChestList implements CommandExecutor {
         long hours = duration.toHours() % 24;
         long minutes = duration.toMinutes() % 60;
         if (days > 0) {
-            return String.format("%d %s and %d minute%s",
+            return String.format("%d %s & %d %s",
                     days, days == 1 ? lang.translate("time.day") : lang.translate("time.days"),
                     minutes, minutes == 1 ? lang.translate("time.minute") : lang.translate("time.minutes"));
         } else if (hours > 0) {
-            return String.format("%d hour%s and %d minute%s",
+            return String.format("%d %s & %d %s",
                     hours, hours == 1 ? lang.translate("time.hour") : lang.translate("time.hours"),
                     minutes, minutes == 1 ? lang.translate("time.minute") : lang.translate("time.minutes"));
         } else {
-            return String.format("%d minute%s",
+            return String.format("%d %s",
                     minutes, minutes == 1 ? lang.translate("time.minute") : lang.translate("time.minutes"));
         }
     }
