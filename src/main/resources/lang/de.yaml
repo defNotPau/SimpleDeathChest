@@ -1,0 +1,25 @@
+# Translation by: bra1nfuck3d
+
+list:
+  nonPlayer: "Nur spieler können diesen Befehl nutzen."
+  noDeathchests: "Du hast keine aktive death-chests."
+  start: "die gefundenen death-chests sind an:"
+  unknown: "unbekkante Halter/Zeit"
+  ago: "vor"
+  yours: "deine"
+  usage: "nutzung"
+
+time:
+  seconds: "sekunden"
+
+  minute: "minute"
+  minutes: "minuten"
+
+  hour: "stunde"
+  hours: "stunden"
+
+  day: "tag"
+  days: "tagen"
+
+# If you have any doubts, please make an issue over on GitHub
+# https://github.com/defNotPau/SimpleDeathChest/issues
