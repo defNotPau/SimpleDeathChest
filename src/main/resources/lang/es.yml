@@ -5,11 +5,13 @@ list:
   noDeathchests: "No tienes cofres de muerte activos."
   start: "Los cofres de muerte encontrados estan en:"
   unknown: "dueño/tiempo desconocido"
-  ago: "pasados"
   yours: "tuyo"
   usage: "Uso"
 
 time:
+  ago: "hace"
+  ago-after: false
+
   minute: "minuto"
   minutes: "minutos"
 

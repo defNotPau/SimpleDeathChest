@@ -5,9 +5,12 @@ list:
   noDeathchests: "Je hebt geen active dood-kisten."
   start: "Je dood-kisten zijn te vinden op:"
   unknown: "onbekende Eigenaar/tijd"
-  ago: "geleden"
   yours: "jouw"
   usage: "Gebruik"
+
+time:
+  ago: "geleden"
+  ago-after: true
 
 # Als er onduidelijkheden zijn, maak dan een issue aan op GitHub
 # https://github.com/defNotPau/SimpleDeathChest/issues

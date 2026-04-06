@@ -45,8 +45,14 @@ public class ChestList implements CommandExecutor {
                 } else if (meta.getOwner().equals(player.getUniqueId())) {
                     Duration duration = Duration.between(meta.getCreated(), now);
                     String timeAgo = formatDuration(duration);
-                    player.sendMessage(String.format("[SimpleDeathChest] %d. X:%d, Y:%d, Z:%d (%s %s) (%s)",
-                            i++, block.getX(), block.getY(), block.getZ(), timeAgo, lang.translate("list.ago"), lang.translate("list.yours")));
+                    String timeformat;
+                    if (lang.AgoParameter()) {
+                       timeformat = String.format("%s %s", timeAgo, lang.translate("time.ago"));
+                    } else
+                        timeformat = String.format("%s %s", lang.translate("time.ago"), timeAgo);
+
+                    player.sendMessage(String.format("[SimpleDeathChest] %d. X:%d, Y:%d, Z:%d (%s) (%s)",
+                            i++, block.getX(), block.getY(), block.getZ(), timeformat, lang.translate("list.yours")));
                 }
             }
             if (i == 1) {

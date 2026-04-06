@@ -34,11 +34,13 @@ list:
   noDeathchests: "You have no active death chests."
   start: "the death-chests found are at:"
   unknown: "unknown owner/time"
-  ago: "ago"
   yours: "yours"
   usage: "Usage"
 
 time:
+  ago: "ago"
+  ago-after: true
+  
   minute: "minute"
   minutes: "minutes"
 
@@ -55,13 +57,19 @@ and its children:
 - `noDeathchests` -> Fallback that says that the player has no death chests of their own
 - `start` -> starting message saying that the player's death chests "are found at:" as leaving the response open
 - `unknown` -> remark if the chest's time or ownership is unknown
-- `ago` -> when you say "That happened x time ago" you have that word like ago/elapsed, that's it
 - `yours` -> second person possessive determinant/pronoun
 - `usage` -> way or method to use
 
 
 `time` is the section of all that has anything to do with the translation of time (1.5.4) <br>
 to be clear, if there's not a  way to say the plural, just keep it as the singular one
+- `ago` -> when you say "That happened x time ago" you have that word like ago/elapsed, that's it
+  - If the language you're translating to puts the "ago"-like word before the time, put it :)
+  - how to reference so?
+- `ago-after` -> weather the ago does go after the time, if false, the `ago` will go before the time
+  - examples:
+    - `true` -> 20 days **ago**
+    - `false` -> **ago** 20 days
 - `minute` -> way to say "One **minute**"
 - `minutes` -> now the plural way
 - `hour` -> for "One **hour**"

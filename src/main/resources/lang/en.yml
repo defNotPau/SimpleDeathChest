@@ -5,11 +5,13 @@ list:
   noDeathchests: "You have no active death chests."
   start: "the death-chests found are at:"
   unknown: "unknown owner/time"
-  ago: "ago"
   yours: "yours"
   usage: "Usage"
 
 time:
+  ago: "ago"
+  ago-after: true
+
   minute: "minute"
   minutes: "minutes"
 
