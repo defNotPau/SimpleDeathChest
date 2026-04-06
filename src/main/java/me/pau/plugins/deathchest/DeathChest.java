@@ -31,7 +31,7 @@ public class DeathChest extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        infoPrint("I might be working");
+        infoPrint("I should be working");
 
         // Config.yml stuff
         instance.saveDefaultConfig();
