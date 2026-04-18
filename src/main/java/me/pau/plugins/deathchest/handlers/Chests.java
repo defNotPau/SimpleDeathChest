@@ -123,7 +123,7 @@ public class Chests {
 
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
         for (Block block : deathChests.keySet()) {
-            String dataString = block.getLocation().getWorld().getName() + "`" +
+            String dataString = Objects.requireNonNull(block.getLocation().getWorld()).getName() + "`" +
                     block.getX() + "`" + block.getY() + "`" + block.getZ() + "`" + 
                     deathChests.get(block).getOwnerName() + "`" + deathChests.get(block).getCreated().toEpochMilli();
             Inventory inventory = deathChests.get(block).getInventory();
@@ -187,7 +187,8 @@ public class Chests {
                 Location location = new Location(world, x, locY, z);
                 Block block = location.getBlock();
 
-                List<ItemStack> contents = (List<ItemStack>) config.get(dataString);
+                //unchecked cast it says... do I care? for the time being, no.
+                @SuppressWarnings("unchecked") List<ItemStack> contents = (List<ItemStack>) config.get(dataString);
                 assert contents != null;
 
                 int chestInventorySize = Math.ceilDiv(contents.size(), 9) * 9;

@@ -15,6 +15,7 @@ public class ChestMeta {
     private final UUID owner;
     private final Instant created;
 
+    @SuppressWarnings("deprecation")
     public ChestMeta(int size, String ownerName) {
         this.ownerName = ownerName;
         this.inventory = (nameVisible)
@@ -25,6 +26,7 @@ public class ChestMeta {
         this.created = Instant.now();
     }
 
+    @SuppressWarnings("deprecation")
     public ChestMeta(int size, String ownerName, Instant instant) {
         this.ownerName = ownerName;
         this.inventory = (nameVisible)
