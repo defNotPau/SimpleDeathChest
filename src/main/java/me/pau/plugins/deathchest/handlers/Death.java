@@ -44,16 +44,9 @@ public class Death implements Listener {
 
         ChestMeta customInventory = new ChestMeta(chestInventorySize, player.getName());
 
-        double chestY = player.getLocation().getY();
-        if (player.getLocation().getY() <= player.getWorld().getMinHeight()) { chestY = player.getWorld().getMinHeight() + 1; }
-        if (player.getLocation().getY() >= player.getWorld().getMaxHeight()) { chestY = player.getWorld().getMaxHeight() - 1; }
+        chestLocation = chestPlacement(player.getLocation().getBlock());
 
-        chestLocation = new Location(
-                player.getWorld(),
-                player.getLocation().getX(),
-                chestY,
-                player.getLocation().getZ());
-
+        assert chestLocation != null;
         Block block = chestLocation.getBlock();
         if (block.getType() == Material.CHEST) {
             block = block.getRelative(BlockFace.UP);
@@ -84,5 +77,27 @@ public class Death implements Listener {
 
         deathChests.put(block, customInventory);
         deathChests.save();
+    }
+
+    public static Location chestPlacement(Block blk) {
+        double chestY = blk.getY();
+        if (blk.getLocation().getY() <= blk.getWorld().getMinHeight()) { chestY = blk.getWorld().getMinHeight() + 1; }
+        if (blk.getLocation().getY() >= blk.getWorld().getMaxHeight()) { chestY = blk.getWorld().getMaxHeight() - 1; }
+
+        Location mainLoc = new Location(blk.getWorld(), blk.getX(), chestY, blk.getZ());
+        Block main = mainLoc.getBlock();
+
+        if (main.getType() == Material.AIR) {
+            return main.getLocation();
+        } else {
+            for (double i = main.getY(); i <= main.getWorld().getMaxHeight(); i++) {
+                Location loc = new Location(main.getWorld(), main.getX(), i, main.getZ());
+                Block block = loc.getBlock();
+
+                if (block.getType() == Material.AIR) return loc;
+            }
+        }
+
+        return null;
     }
 }
