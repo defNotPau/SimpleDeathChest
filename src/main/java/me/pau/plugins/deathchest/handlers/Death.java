@@ -81,8 +81,12 @@ public class Death implements Listener {
 
     public static Location chestPlacement(Block blk) {
         double chestY = blk.getY();
-        if (blk.getLocation().getY() <= blk.getWorld().getMinHeight()) { chestY = blk.getWorld().getMinHeight() + 1; }
-        if (blk.getLocation().getY() >= blk.getWorld().getMaxHeight()) { chestY = blk.getWorld().getMaxHeight() - 1; }
+        if (blk.getLocation().getY() >= blk.getWorld().getMaxHeight()) {
+            chestY = blk.getWorld().getMaxHeight() - 1;
+
+            return new Location(blk.getWorld(), blk.getX(), chestY, blk.getZ());
+        }
+        if (blk.getLocation().getY() <= blk.getWorld().getMinHeight()) chestY = blk.getWorld().getMinHeight() + 1;
 
         Location mainLoc = new Location(blk.getWorld(), blk.getX(), chestY, blk.getZ());
         Block main = mainLoc.getBlock();
