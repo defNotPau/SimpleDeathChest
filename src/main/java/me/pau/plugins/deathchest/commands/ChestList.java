@@ -55,7 +55,7 @@ public class ChestList implements CommandExecutor {
                 }
             }
             if (i == 1) {
-                player.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.noDeathchest")));
+                player.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.noDeathchests")));
             }
             return true;
         }
