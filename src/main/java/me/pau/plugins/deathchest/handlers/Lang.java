@@ -45,13 +45,13 @@ public class Lang {
 
     public String translate(String key) {
         if (mainLang.get(key) != null) {
-            return Objects.requireNonNull(mainLang.get(key)).toString();
+            return mainLang.get(key).toString();
         }
 
-        severePrint("[Critical] Translation not found");
-        severePrint("[Correction] it could be fixed by going to plugins/DeathChest/lang and delete all languages there, then restart the server");
+        warnPrint("[Critical] Translation not found");
+        warnPrint("[Correction] it could be fixed by going to plugins/DeathChest/lang and delete all languages there, then restart the server");
         warnPrint("Warning, /deathchest list command won't work exactly as intended");
 
-        return Objects.requireNonNullElse(fallbackLang.get(key).toString(), "[Missing translation]");
+        return fallbackLang.getString(key, "[Missing translation]");
     }
 }
