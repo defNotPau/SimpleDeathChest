@@ -154,13 +154,13 @@ public class Chests {
                     warnPrint("Your save data is not updated, don't worry ;) (or worry, i'll try fixing it)");
                     locParts = dataString.split(",");
                     if (locParts.length != 4) {
-                        error("what have you done");
+                        error("what hast thou done");
                     }
                 } else {
                     if (locParts.length < 4) {
                         warnPrint("Your deathchest save file is not updated!!!!!!!!!!!!");
                         warnPrint("If you can, delete it, it's on (server folder)/plugins/deathchest BUT this WILL PERMANENTLY DELETE THE DEATHCHESTS, be careful and drink water ;)");
-                        error("Critical, Save file deprecated (like it's old old)");
+                        error("Critical, Save file deprecated (like it's OLD)");
                         return;
                     } else if (locParts.length < 6) {
                         warnPrint("Your deathchest save file is not updated!!!!!!!!!!!!");

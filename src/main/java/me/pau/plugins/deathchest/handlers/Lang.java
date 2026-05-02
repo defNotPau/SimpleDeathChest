@@ -33,7 +33,7 @@ public class Lang {
         if (mainLang.get("time.ago-after") != null) {
             return (boolean) Objects.requireNonNull(mainLang.get("time.ago-after"));
         } else {
-            return (boolean) Objects.requireNonNull(fallbackLang.get("time.ago-after"));
+            return (boolean) Objects.requireNonNullElse(fallbackLang.get("time.ago-after"), true);
         }
     }
 
@@ -46,11 +46,12 @@ public class Lang {
     public String translate(String key) {
         if (mainLang.get(key) != null) {
             return Objects.requireNonNull(mainLang.get(key)).toString();
-        } else {
-            severePrint("[Critical] Translation not found");
-            severePrint("[Correction] it could be fixed by going to plugins/DeathChest/lang and delete all languages there, then restart the server");
-            warnPrint("Warning, /deathchest list command won't work exactly as intended");
-            return Objects.requireNonNull(fallbackLang.get(key)).toString();
         }
+
+        severePrint("[Critical] Translation not found");
+        severePrint("[Correction] it could be fixed by going to plugins/DeathChest/lang and delete all languages there, then restart the server");
+        warnPrint("Warning, /deathchest list command won't work exactly as intended");
+
+        return Objects.requireNonNullElse(fallbackLang.get(key).toString(), "[Missing translation]");
     }
 }
