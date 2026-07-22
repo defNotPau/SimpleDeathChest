@@ -188,7 +188,8 @@ public class Chests {
                 Block block = location.getBlock();
 
                 //unchecked cast it says... do I care? for the time being, no.
-                @SuppressWarnings("unchecked") List<ItemStack> contents = (List<ItemStack>) config.get(dataString);
+                //fixed config.get() to config.getString to fix MemoryMap errors with some versions
+                @SuppressWarnings("unchecked") List<ItemStack> contents = (List<ItemStack>) config.getString(dataString);
                 assert contents != null;
 
                 int chestInventorySize = Math.ceilDiv(contents.size(), 9) * 9;
