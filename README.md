@@ -26,8 +26,8 @@
 
 ### And Translations have arrived :)
 - Maybe your server's players don't speak english, so you'd want them to be able to understand some information, right?
-- Therefore in the configuration as for version `1.5.2` the setting `general.language` has become available
-- You just put one of the "currently available" language codes in the field and you're set :)
+- Therefore, in the configuration as for version `1.5.2` the setting `general.language` has become available
+- You just put one of the "currently available" language codes in the field, and you're set :)
 - Currently available languages:
   - Español (Spanish) `"es"`
   - English (uhhh...) `"en"`

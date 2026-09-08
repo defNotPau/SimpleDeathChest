@@ -2,18 +2,15 @@ package me.pau.plugins.deathchest.handlers;
 
 import me.pau.plugins.deathchest.DeathChest;
 
+import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 
 import static me.pau.plugins.deathchest.DeathChest.instance;
@@ -22,7 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Death implements Listener {
-
     Chests deathChests;
 
     public Death(DeathChest plugin, Chests deathChests) {
@@ -80,15 +76,36 @@ public class Death implements Listener {
     }
 
     public static Location chestPlacement(Block blk) {
+        World chestW = blk.getWorld();
+        double chestX = blk.getX();
         double chestY = blk.getY();
-        if (blk.getLocation().getY() >= blk.getWorld().getMaxHeight()) {
-            chestY = blk.getWorld().getMaxHeight() - 1;
+        double chestZ = blk.getZ();
 
-            return new Location(blk.getWorld(), blk.getX(), chestY, blk.getZ());
+        if (chestW.getEnvironment() == World.Environment.NORMAL) {
+            Location worldSpawn = chestW.getSpawnLocation();
+            double worldSpawnX = worldSpawn.getX();
+            double worldSpawnZ = worldSpawn.getZ();
+            double spawnProtection = Bukkit.getSpawnRadius();
+
+            double zDistance = Math.abs(chestZ - worldSpawnZ);
+            double xDistance = Math.abs(chestX - worldSpawnX);
+
+            if (xDistance <= spawnProtection && zDistance <= spawnProtection) {
+                if (zDistance > xDistance) {
+                    if (chestZ - worldSpawnZ > 0) chestZ = worldSpawnZ + spawnProtection + 1;
+                    if (chestZ - worldSpawnZ < 0) chestZ = worldSpawnZ - spawnProtection - 1;
+                }
+                if (xDistance > zDistance) {
+                    if (chestX - worldSpawnX > 0) chestX = worldSpawnX + spawnProtection + 1;
+                    if (chestX - worldSpawnX < 0) chestX = worldSpawnX - spawnProtection - 1;
+                }
+            }
         }
-        if (blk.getLocation().getY() <= blk.getWorld().getMinHeight()) chestY = blk.getWorld().getMinHeight() + 1;
 
-        Location mainLoc = new Location(blk.getWorld(), blk.getX(), chestY, blk.getZ());
+        if (chestY >= chestW.getMaxHeight()) chestY = blk.getWorld().getMaxHeight() - 1;
+        if (chestY <= chestW.getMinHeight()) chestY = blk.getWorld().getMinHeight() + 1;
+
+        Location mainLoc = new Location(blk.getWorld(), chestX, chestY, chestZ);
         Block main = mainLoc.getBlock();
 
         if (main.getType() == Material.AIR) {
@@ -98,7 +115,7 @@ public class Death implements Listener {
                 Location loc = new Location(main.getWorld(), main.getX(), i, main.getZ());
                 Block block = loc.getBlock();
 
-                if (block.getType() == Material.AIR) return loc;
+                if (block.getType() == Material.AIR) return new Location(chestW, chestX, i, chestZ);
             }
         }
 

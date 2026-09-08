@@ -7,7 +7,9 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -50,21 +52,19 @@ public class Interaction implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onChestOpen(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         Block clickedBlock = event.getClickedBlock();
 
-        if (clickedBlock == null) {
-            return;
-        }
-        if (clickedBlock.getType() != Material.CHEST) {
-            return;
-        }
+        if (clickedBlock == null) return;
+        if (clickedBlock.getType() != Material.CHEST) return;
 
         if (deathChests.containsKey(clickedBlock)) {
+            if (event.useInteractedBlock() == Event.Result.DENY) {
+                event.setUseInteractedBlock(Event.Result.ALLOW);
+            }
+
             Player player = event.getPlayer();
             player.openInventory(deathChests.get(clickedBlock).getInventory());
             event.setCancelled(true);

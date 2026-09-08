@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="deathchest:jar">
-    <output-path>E:/testingMcServers/purpur/1.21.8/plugins</output-path>
+    <output-path>$PROJECT_DIR$/../../../../testingMcServers/SimpleDeathChest/plugins</output-path>
     <root id="archive" name="deathchest.jar">
       <element id="module-output" name="deathchest" />
     </root>
