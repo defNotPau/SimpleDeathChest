@@ -113,13 +113,7 @@ public class Chests {
      */
     public void save() {
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
-        FileConfiguration emptyConfig = new YamlConfiguration();
-
-        try {
-            emptyConfig.save(file);
-        } catch (IOException e) {
-            warnPrint(e.toString());
-        }
+        if (deathChests.isEmpty()) return;
 
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
         for (Block block : deathChests.keySet()) {
@@ -151,10 +145,11 @@ public class Chests {
             for (String dataString : config.getKeys(false)) {
                 String[] locParts = dataString.split("`");
                 if (locParts.length == 1) {
-                    warnPrint("Your save data is not updated, don't worry ;) (or worry, i'll try fixing it)");
+                    warnPrint("Your save data is not updated, don't worry ;) (or worry, [i'll try fixing it)");
                     locParts = dataString.split(",");
                     if (locParts.length != 4) {
-                        error("what hast thou done");
+                        severePrint("what hast thou done");
+                        error("Chest loading failed, save file has invalid format");
                     }
                 } else {
                     if (locParts.length < 4) {
@@ -199,7 +194,6 @@ public class Chests {
             }
         }
 
-        deleteFile(file);
         infoPrint("Loaded Death Chests");
     }
 

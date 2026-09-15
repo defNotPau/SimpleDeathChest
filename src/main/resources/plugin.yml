@@ -5,6 +5,11 @@ api-version: '1.17'
 author: defNotPau
 description: Simple, hopefully efficient and reliable Death Chest plugin so items won't despawn
 
+softdepend:
+  - floodgate
+  - Geyser-Spigot
+  - ExcellentEnchants
+
 commands:
   deathchest:
     description: Main command for DeathChest plugin
