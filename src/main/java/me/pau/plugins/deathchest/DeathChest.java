@@ -46,6 +46,12 @@ public class DeathChest extends JavaPlugin {
 
         // Anything to do with integrations
         isExcellentEnchantsEnabled = getServer().getPluginManager().isPluginEnabled("ExcellentEnchants");
+        if ((getServer().getPluginManager().isPluginEnabled("Geyser-Spigot"))
+                || (getServer().getPluginManager().isPluginEnabled("Geyser-BungeeCord"))
+                || (getServer().getPluginManager().isPluginEnabled("geyser")) ) {
+            if (!getServer().getPluginManager().isPluginEnabled("floodgate"))
+                error("For the plugin to work with Geyser, Floodgate must be installed");
+        }
 
         // Chests class summoning
         chests = new Chests(instance);

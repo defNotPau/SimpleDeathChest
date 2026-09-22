@@ -113,13 +113,17 @@ public class Chests {
      */
     public void save() {
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
-        if (deathChests.isEmpty()) return;
+        if (deathChests.isEmpty()) {
+            warnPrint("No deathchests, no save");
+            return;
+        }
 
+        deleteFile(file);
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
         for (Block block : deathChests.keySet()) {
             String dataString = Objects.requireNonNull(block.getLocation().getWorld()).getName() + "`" +
                     block.getX() + "`" + block.getY() + "`" + block.getZ() + "`" + 
-                    deathChests.get(block).getOwnerName() + "`" + deathChests.get(block).getCreated().toEpochMilli();
+                    deathChests.get(block).getOwner() + "`" + deathChests.get(block).getCreated().toEpochMilli();
             Inventory inventory = deathChests.get(block).getInventory();
 
             config.set(dataString, inventory.getContents());
@@ -167,9 +171,16 @@ public class Chests {
                 int x = Integer.parseInt(locParts[1]);
                 int y = Integer.parseInt(locParts[2]);
                 int z = Integer.parseInt(locParts[3]);
-                String name = (locParts.length < 6)
-                        ? "unknown"
-                        : locParts[4];
+                String name;
+                if (locParts.length < 6) name = "unknown";
+                else {
+                    try {
+                        UUID uuid = UUID.fromString(locParts[4]);
+                        name = Bukkit.getOfflinePlayer(uuid).getName();
+                    } catch (IllegalArgumentException e) {
+                        name = locParts[4];
+                    }
+                }
                 Instant instant = (locParts.length < 6)
                         ? Instant.now()
                         : Instant.ofEpochMilli(Long.parseLong(locParts[5]));

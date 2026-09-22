@@ -8,6 +8,8 @@ description: Simple, hopefully efficient and reliable Death Chest plugin so item
 softdepend:
   - floodgate
   - Geyser-Spigot
+  - Geyser-BungeeCord
+  - geyser
   - ExcellentEnchants
 
 commands:

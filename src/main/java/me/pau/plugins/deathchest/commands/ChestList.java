@@ -8,13 +8,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 import java.util.Objects;
 
-// Original implementation by nickmartin1ee7 on github
+// Original implementation by nickmartin1ee7 on GitHub
 public class ChestList implements CommandExecutor {
     private final Chests chests;
     private final Lang lang;
@@ -25,7 +26,7 @@ public class ChestList implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NonNull CommandSender sender, @NonNull Command command, @NonNull String label, String @NonNull [] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.nonPlayer")));
             return true;
