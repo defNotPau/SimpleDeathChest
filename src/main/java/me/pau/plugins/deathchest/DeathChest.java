@@ -51,6 +51,8 @@ public class DeathChest extends JavaPlugin {
                 || (getServer().getPluginManager().isPluginEnabled("geyser")) ) {
             if (!getServer().getPluginManager().isPluginEnabled("floodgate"))
                 error("For the plugin to work with Geyser, Floodgate must be installed");
+
+
         }
 
         // Chests class summoning
