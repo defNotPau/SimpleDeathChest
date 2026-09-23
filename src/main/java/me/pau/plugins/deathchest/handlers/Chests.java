@@ -115,6 +115,7 @@ public class Chests {
         File file = new File(plugin.getDataFolder(), "deathChests.yml");
         if (deathChests.isEmpty()) {
             warnPrint("No deathchests, no save");
+            deleteFile(file);
             return;
         }
 
@@ -131,7 +132,7 @@ public class Chests {
 
         try {
             config.save(file);
-            infoPrint("Saving Death Chests");
+            infoPrint(String.format("Saving %s Death Chests", deathChests.size()));
         } catch (IOException e) {
             warnPrint(e.toString());
         }

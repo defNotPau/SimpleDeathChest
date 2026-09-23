@@ -50,9 +50,7 @@ public class DeathChest extends JavaPlugin {
                 || (getServer().getPluginManager().isPluginEnabled("Geyser-BungeeCord"))
                 || (getServer().getPluginManager().isPluginEnabled("geyser")) ) {
             if (!getServer().getPluginManager().isPluginEnabled("floodgate"))
-                error("For the plugin to work with Geyser, Floodgate must be installed");
-
-
+                warnPrint("The plugin hasn't been tested without floodgate, if it works without floodgate, please tell me :D");
         }
 
         // Chests class summoning

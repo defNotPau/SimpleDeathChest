@@ -73,12 +73,8 @@ public class Interaction implements Listener {
 
     @EventHandler
     public void onChestClose(InventoryCloseEvent event) {
-        if (!deathChests.containsValue(event.getInventory())) {
-            return;
-        }
-        if (!event.getInventory().isEmpty()) {
-            return;
-        }
+        if (!deathChests.containsValue(event.getInventory())) return;
+        if (!event.getInventory().isEmpty()) return;
 
         Block block = deathChests.get(event.getInventory());
         deathChests.remove(block);
