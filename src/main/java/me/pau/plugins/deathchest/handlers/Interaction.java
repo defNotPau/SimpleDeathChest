@@ -17,6 +17,7 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
@@ -55,15 +56,25 @@ public class Interaction implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChestOpen(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (event.getHand() != EquipmentSlot.HAND) return;
+
         Block clickedBlock = event.getClickedBlock();
 
         if (clickedBlock == null) return;
         if (clickedBlock.getType() != Material.CHEST) return;
 
         if (deathChests.containsKey(clickedBlock)) {
-            if (event.useInteractedBlock() == Event.Result.DENY) {
-                event.setUseInteractedBlock(Event.Result.ALLOW);
+            if (event.getPlayer().isSneaking()) {
+                ItemStack usedItem = event.getItem();
+                if (usedItem != null) {
+                    if (usedItem.getType().isBlock()) {
+                        return;
+                    }
+                }
             }
+
+            if (event.useInteractedBlock() == Event.Result.DENY)
+                event.setUseInteractedBlock(Event.Result.ALLOW);
 
             Player player = event.getPlayer();
             player.openInventory(deathChests.get(clickedBlock).getInventory());
