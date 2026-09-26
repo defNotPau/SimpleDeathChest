@@ -32,7 +32,7 @@
   - Español (Spanish) `"es"`
   - English (uhhh...) `"en"`
   - Nederlands (Dutch) `"nl"`
-
+  - Arabic (العربية) `"ar"`
 ## Usage:
 Don't worry, it's simple.
 
