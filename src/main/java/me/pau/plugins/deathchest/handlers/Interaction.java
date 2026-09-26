@@ -20,7 +20,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Optional;
+import java.util.List;
 
 import static me.pau.plugins.deathchest.DeathChest.*;
 
@@ -50,7 +50,11 @@ public class Interaction implements Listener {
 
         if (!deathChests.get(brokenBlock).getInventory().isEmpty()) {
             event.setCancelled(true);
+            return;
         }
+
+        // Empty death chests are allowed to break normally even when player_breakable is false
+        deathChests.remove(brokenBlock);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -94,25 +98,28 @@ public class Interaction implements Listener {
 
     @EventHandler
     public void onBlockExplode(BlockExplodeEvent event) {
-        if (!explosionProof) {
-            return;
-        }
-        event.blockList().removeIf(block -> block.getType() == Material.CHEST && deathChests.containsKey(block));
+        handleExplosion(event.blockList());
     }
 
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
-        Optional<Block> chestOptional = event.blockList().stream()
+        handleExplosion(event.blockList());
+    }
+
+    // Applies deathchest explosion rules to every tracked chest caught in the blast
+    private void handleExplosion(List<Block> blockList) {
+        List<Block> chests = blockList.stream()
                 .filter(block -> block.getType() == Material.CHEST && deathChests.containsKey(block))
-                .findFirst();
-        if (chestOptional.isEmpty()) {
-            return;
-        }
+                .toList();
 
-        Block chest = chestOptional.get();
-        event.blockList().remove(chest);
+        for (Block chest : chests) {
+            if (explosionProof) {
+                blockList.remove(chest);
+                continue;
+            }
 
-        if (!explosionProof) {
+            // The chest is allowed to be destroyed by the blast.
+            // Same as a player broken chest
             if (dropItemsWhenExploded) {
                 dropItems(deathChests.get(chest).getInventory().getContents(), chest.getLocation());
             }
