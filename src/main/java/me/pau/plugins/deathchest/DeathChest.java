@@ -22,6 +22,8 @@ public class DeathChest extends JavaPlugin {
 
     static public boolean nameVisible;
 
+    static public boolean deathChestListCommandEnabled;
+
     // Other classes that should be summoned
     Death death;
     Interaction interaction;
@@ -43,6 +45,7 @@ public class DeathChest extends JavaPlugin {
         dropItemsWhenBroken = this.getConfig().getBoolean("chest_interactions.items_drop_when_broken", true);
 
         nameVisible = this.getConfig().getBoolean("chest_customization.name_on_chest", true);
+        deathChestListCommandEnabled = this.getConfig().getBoolean("commands.deathchest-list", true);
 
         // Anything to do with integrations
         isExcellentEnchantsEnabled = getServer().getPluginManager().isPluginEnabled("ExcellentEnchants");
@@ -67,8 +70,10 @@ public class DeathChest extends JavaPlugin {
         lang = new Lang(instance);
         chests.restoreInWorld();
 
-        // Register command
-        Objects.requireNonNull(getCommand("deathchest")).setExecutor(new ChestList(chests, lang));
+        // Register command (unless the server operator turned it off)
+        if (deathChestListCommandEnabled) {
+            Objects.requireNonNull(getCommand("deathchest")).setExecutor(new ChestList(chests, lang));
+        }
     }
 
     @Override
