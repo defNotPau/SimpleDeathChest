@@ -1,0 +1,28 @@
+# ترجمة بواسطة: س سيرا
+
+list:
+  nonPlayer: "يمكن للاعبين فقط استخدام هذا الأمر."
+  noDeathchests: "لا توجد لديك صناديق موت نشطة."
+  start: "تم العثور على صناديق الموت في:"
+  unknown: "مالك/وقت غير معروف"
+  yours: "لك"
+  usage: "الاستخدام"
+
+time:
+  ago: "منذ"
+  ago-after: false
+
+  minute: "دقيقة"
+  minutes: "دقائق"
+
+  hour: "ساعة"
+  hours: "ساعات"
+
+  day: "يوم"
+  days: "أيام"
+
+# I tried my best to translate it correctly
+# the problem is that the singular vs plural system doesn't work with arabic well
+# and everything is flipped XD
+# If you have any doubts, please make an issue over on GitHub
+# https://github.com/defNotPau/SimpleDeathChest/issues
