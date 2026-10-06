@@ -123,7 +123,7 @@ public class Chests {
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
         for (Block block : deathChests.keySet()) {
             String dataString = Objects.requireNonNull(block.getLocation().getWorld()).getName() + "`" +
-                    block.getX() + "`" + block.getY() + "`" + block.getZ() + "`" + 
+                    block.getX() + "`" + block.getY() + "`" + block.getZ() + "`" +
                     deathChests.get(block).getOwner() + "`" + deathChests.get(block).getCreated().toEpochMilli();
             Inventory inventory = deathChests.get(block).getInventory();
 
@@ -169,24 +169,38 @@ public class Chests {
                 }
 
                 World world = Bukkit.getWorld(locParts[0]);
+                if (world == null) {
+                    warnPrint("Skipping death chest entry: world '" + locParts[0] + "' is not loaded (" + dataString + ")");
+                    continue;
+                }
+
                 int x = Integer.parseInt(locParts[1]);
                 int y = Integer.parseInt(locParts[2]);
                 int z = Integer.parseInt(locParts[3]);
                 String name;
-                if (locParts.length < 6) name = "unknown";
-                else {
+                UUID owner;
+                if (locParts.length < 6) {
+                    name = "unknown";
+                    owner = null;
+                } else {
+                    UUID parsedUuid;
                     try {
-                        UUID uuid = UUID.fromString(locParts[4]);
-                        name = Bukkit.getOfflinePlayer(uuid).getName();
+                        parsedUuid = UUID.fromString(locParts[4]);
                     } catch (IllegalArgumentException e) {
-                        name = locParts[4];
+                        // Pre UUID save format stored the raw player name instead
+                        parsedUuid = null;
                     }
+                    // getOfflinePlayer(UUID) is a local lookup only, unlike the
+                    // String overload, so this never blocks on a Mojang request
+                    owner = parsedUuid;
+                    name = (parsedUuid != null)
+                            ? Objects.requireNonNullElse(Bukkit.getOfflinePlayer(parsedUuid).getName(), locParts[4])
+                            : locParts[4];
                 }
                 Instant instant = (locParts.length < 6)
                         ? Instant.now()
                         : Instant.ofEpochMilli(Long.parseLong(locParts[5]));
 
-                assert world != null;
                 double locY = y;
                 if (y <= world.getMinHeight()) { locY = world.getMinHeight() + 1; }
                 if (y >= world.getMaxHeight()) { locY = world.getMaxHeight() - 1; }
@@ -196,10 +210,13 @@ public class Chests {
 
                 //unchecked cast it says... do I care? for the time being, no.
                 @SuppressWarnings("unchecked") List<ItemStack> contents = (List<ItemStack>) config.get(dataString);
-                assert contents != null;
+                if (contents == null) {
+                    warnPrint("Skipping death chest entry: no inventory contents saved for " + dataString);
+                    continue;
+                }
 
                 int chestInventorySize = Math.ceilDiv(contents.size(), 9) * 9;
-                ChestMeta customInventory = new ChestMeta(chestInventorySize, name, instant);
+                ChestMeta customInventory = new ChestMeta(chestInventorySize, name, owner, instant);
                 customInventory.setContents(contents.toArray(new ItemStack[0]));
 
                 deathChests.put(block, customInventory);

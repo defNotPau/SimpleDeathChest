@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
-import java.util.Objects;
 
 // Original implementation by nickmartin1ee7 on GitHub
 public class ChestList implements CommandExecutor {
@@ -31,17 +30,16 @@ public class ChestList implements CommandExecutor {
             return true;
         }
         if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
-            // List all death chests for this player, and also show unknown owner/time
+            // List this player's own death chests only.
             int i = 1;
             player.sendMessage(String.format("[SimpleDeathChest] %s", lang.translate("list.start")));
             Instant now = Instant.now();
             for (Map.Entry<Block, ChestMeta> entry : chests.entrySet()) {
                 Block block = entry.getKey();
                 ChestMeta meta = entry.getValue();
-                if (Objects.equals(meta.getOwnerName(), "unknown") || meta.getCreated() == null) {
-                    player.sendMessage(String.format("[SimpleDeathChest] %d. X:%d, Y:%d, Z:%d (%s)",
-                            i++, block.getX(), block.getY(), block.getZ(), lang.translate("list.unknown")));
-                } else if (meta.getOwner().equals(player.getUniqueId())) {
+                // A chest with no resolvable owner UUID (legacy save data) is shown to nobody rather than to everybody.
+                // Coordinates of other players' death chests are not public information.
+                if (meta.getOwner() != null && meta.getOwner().equals(player.getUniqueId())) {
                     Duration duration = Duration.between(meta.getCreated(), now);
                     String timeAgo = formatDuration(duration);
                     String timeformat;
@@ -69,8 +67,9 @@ public class ChestList implements CommandExecutor {
         long hours = duration.toHours() % 24;
         long minutes = duration.toMinutes() % 60;
         if (days > 0) {
-            return String.format("%d %s & %d %s",
+            return String.format("%d %s, %d %s & %d %s",
                     days, days == 1 ? lang.translate("time.day") : lang.translate("time.days"),
+                    hours, hours == 1 ? lang.translate("time.hour") : lang.translate("time.hours"),
                     minutes, minutes == 1 ? lang.translate("time.minute") : lang.translate("time.minutes"));
         } else if (hours > 0) {
             return String.format("%d %s & %d %s",

@@ -38,11 +38,16 @@ public class Death implements Listener {
 
         int chestInventorySize = Math.ceilDiv(playerDrops.size(), 9) * 9;
 
-        ChestMeta customInventory = new ChestMeta(chestInventorySize, player.getName());
+        ChestMeta customInventory = new ChestMeta(chestInventorySize, player);
 
         chestLocation = chestPlacement(player.getLocation().getBlock());
 
-        assert chestLocation != null;
+        if (chestLocation == null) {
+            DeathChest.warnPrint("Could not find a free block to place a death chest for "
+                    + player.getName() + " near " + player.getLocation() + "; leaving vanilla item drops in place.");
+            return;
+        }
+
         Block block = chestLocation.getBlock();
         if (block.getType() == Material.CHEST) {
             block = block.getRelative(BlockFace.UP);
