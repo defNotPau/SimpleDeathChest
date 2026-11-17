@@ -1,7 +1,8 @@
 package me.pau.plugins.deathchest.handlers;
 
 import me.pau.plugins.deathchest.DeathChest;
-
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.enchantments.Enchantment;
 
 import static me.pau.plugins.deathchest.DeathChest.instance;
+import static me.pau.plugins.deathchest.DeathChest.notifyChestLocation;
 
 import java.util.Iterator;
 import java.util.List;
@@ -78,6 +80,14 @@ public class Death implements Listener {
 
         deathChests.put(block, customInventory);
         deathChests.save();
+
+        if (notifyChestLocation) {
+            Location blockLocation = block.getLocation();
+            Component message = Component.text(String.format("Death chest created at %d %d %d",
+                    blockLocation.getBlockX(), blockLocation.getBlockY(), blockLocation.getBlockZ()),
+                    NamedTextColor.GOLD);
+            player.sendMessage(message);
+        }
     }
 
     public static Location chestPlacement(Block blk) {
