@@ -49,6 +49,10 @@ time:
 
   day: "day"
   days: "days"
+
+notification:
+  death: "Your death chest was created at "
+  empty: "One of your death chests has been emptied."
 ```
 `list` is just the container, referenced as `list.(element)` <br>
 And in this case it means these are the translations for the `/deathchest list` command <br>
@@ -76,6 +80,10 @@ to be clear, if there's not a  way to say the plural, just keep it as the singul
 - `hours` -> multiple hours?
 - `day` -> "One **day**"
 - `days` -> multiple days?
+
+`notification` is the section of messages related to events that a player receives:
+- `death` -> Tells a player their newly created death chest is at- (leave it at a word that points to coordinates)
+- `empty` -> Notifies that one (not a specific) of a player's chests has been emptied, it has no content, therefore disappears.
 
 <br>
 Thank you so much for doing this :D
