@@ -1,8 +1,6 @@
 package me.pau.plugins.deathchest.handlers;
 
 import me.pau.plugins.deathchest.DeathChest;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -83,9 +81,8 @@ public class Death implements Listener {
 
         if (notifyChestLocation) {
             Location blockLocation = block.getLocation();
-            Component message = Component.text(String.format("Death chest created at %d %d %d",
-                    blockLocation.getBlockX(), blockLocation.getBlockY(), blockLocation.getBlockZ()),
-                    NamedTextColor.GOLD);
+            String message = String.format("Death chest created at %d %d %d",
+                    blockLocation.getBlockX(), blockLocation.getBlockY(), blockLocation.getBlockZ());
             player.sendMessage(message);
         }
     }
