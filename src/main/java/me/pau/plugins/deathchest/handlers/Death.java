@@ -36,7 +36,7 @@ public class Death implements Listener {
             return;
         }
 
-        int chestInventorySize = Math.ceilDiv(playerDrops.size(), 9) * 9;
+        int chestInventorySize = (int) Math.ceil((double) playerDrops.size() / 9) * 9;
 
         ChestMeta customInventory = new ChestMeta(chestInventorySize, player);
 

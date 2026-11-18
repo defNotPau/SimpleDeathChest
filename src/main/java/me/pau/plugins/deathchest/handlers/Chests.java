@@ -215,7 +215,7 @@ public class Chests {
                     continue;
                 }
 
-                int chestInventorySize = Math.ceilDiv(contents.size(), 9) * 9;
+                int chestInventorySize = (int) Math.ceil(((double) contents.size() / 9)) * 9;
                 ChestMeta customInventory = new ChestMeta(chestInventorySize, name, owner, instant);
                 customInventory.setContents(contents.toArray(new ItemStack[0]));
 
