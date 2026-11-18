@@ -20,10 +20,12 @@ import java.util.List;
 
 public class Death implements Listener {
     Chests deathChests;
+    private final Lang lang;
 
-    public Death(DeathChest plugin, Chests deathChests) {
+    public Death(DeathChest plugin, Chests deathChests, Lang lang) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
         this.deathChests = deathChests;
+        this.lang = lang;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -81,7 +83,7 @@ public class Death implements Listener {
 
         if (notifyChestLocation) {
             Location blockLocation = block.getLocation();
-            String message = String.format("Death chest created at %d %d %d",
+            String message = String.format("[SimpleDeathChest] %s %d %d %d", lang.translate("notification.death"),
                     blockLocation.getBlockX(), blockLocation.getBlockY(), blockLocation.getBlockZ());
             player.sendMessage(message);
         }

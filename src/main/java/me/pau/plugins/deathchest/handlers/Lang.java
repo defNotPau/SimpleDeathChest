@@ -50,7 +50,7 @@ public class Lang {
 
         warnPrint("[Critical] Translation not found");
         warnPrint("[Correction] it could be fixed by going to plugins/DeathChest/lang and delete all languages there, then restart the server");
-        warnPrint("Warning, /deathchest list command won't work exactly as intended");
+        warnPrint("Warning, some features command won't work exactly as intended");
 
         return fallbackLang.getString(key, "[Missing translation]");
     }

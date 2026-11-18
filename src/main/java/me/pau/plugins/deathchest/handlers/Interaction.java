@@ -25,11 +25,13 @@ import java.util.List;
 import static me.pau.plugins.deathchest.DeathChest.*;
 
 public class Interaction implements Listener {
-    Chests deathChests;
+    private final Lang lang;
+    private final Chests deathChests;
 
-    public Interaction(DeathChest plugin, Chests deathChests) {
+    public Interaction(DeathChest plugin, Chests deathChests, Lang lang) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
         this.deathChests = deathChests;
+        this.lang = lang;
     }
 
     @EventHandler
@@ -92,6 +94,8 @@ public class Interaction implements Listener {
         if (!event.getInventory().isEmpty()) return;
 
         Block block = deathChests.get(event.getInventory());
+        Player player = Bukkit.getPlayer(deathChests.get(block).getOwner());
+        if (player != null) player.sendMessage(lang.translate("notification.empty"));
         deathChests.remove(block);
         block.setType(Material.AIR);
     }

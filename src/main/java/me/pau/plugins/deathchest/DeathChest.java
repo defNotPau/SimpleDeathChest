@@ -67,9 +67,9 @@ public class DeathChest extends JavaPlugin {
             infoPrint("There are " + chests.getAllBlocks().size() + " death chests loaded in the world.");
         }
 
-        death = new Death(instance, chests);
-        interaction = new Interaction(instance, chests);
         lang = new Lang(instance);
+        interaction = new Interaction(instance, chests, lang);
+        death = new Death(instance, chests, lang);
         chests.restoreInWorld();
 
         // Register command (unless the server operator turned it off)

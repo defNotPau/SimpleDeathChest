@@ -21,6 +21,10 @@ time:
   day: "day"
   days: "days"
 
+notification:
+  death: "Your death chest was created at "
+  empty: "One of your death chests has been emptied."
+
 # Translation explanation: as straightforward as it might seem...
 # ago: more like elapsed... I'm sorry future translator
 

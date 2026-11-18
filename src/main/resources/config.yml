@@ -18,6 +18,8 @@ chest_interactions:
   items_drop_when_exploded: true
   # Notifies the player about their death chest location
   notify_chest_location: false
+  # Notifies the player that one of their death chests has been cleared
+  notify_chest_clear: false
 
 # Please tell me it's clear enough
 chest_customization:

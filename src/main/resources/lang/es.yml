@@ -21,5 +21,9 @@ time:
   day: "día"
   days: "días"
 
+notification:
+  death: "Tu cofre de muerte se ha puesto en"
+  empty: "Uno de tus cofres de muerte se ha vaciado."
+
 # Si tienes alguna duda, ve a GitHub y haz un Issue
 # https://github.com/defNotPau/SimpleDeathChest/issues
