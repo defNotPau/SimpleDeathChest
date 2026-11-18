@@ -16,6 +16,8 @@ chest_interactions:
   # Items WILL disappear if option below isn't true
   explosion_proof: true
   items_drop_when_exploded: true
+  # Notifies the player about their death chest location
+  notify_chest_location: false
 
 # Please tell me it's clear enough
 chest_customization:

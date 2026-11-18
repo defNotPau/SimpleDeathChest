@@ -19,6 +19,7 @@ public class DeathChest extends JavaPlugin {
     static public boolean dropItemsWhenBroken;
     static public boolean explosionProof;
     static public boolean dropItemsWhenExploded;
+    static public boolean notifyChestLocation;
 
     static public boolean nameVisible;
 
@@ -43,6 +44,7 @@ public class DeathChest extends JavaPlugin {
         explosionProof = this.getConfig().getBoolean("chest_interactions.explosion_proof", true);
         dropItemsWhenExploded = this.getConfig().getBoolean("chest_interactions.items_drop_when_exploded", true);
         dropItemsWhenBroken = this.getConfig().getBoolean("chest_interactions.items_drop_when_broken", true);
+        notifyChestLocation = this.getConfig().getBoolean("chest_interactions.notify_chest_location", false);
 
         nameVisible = this.getConfig().getBoolean("chest_customization.name_on_chest", true);
         deathChestListCommandEnabled = this.getConfig().getBoolean("commands.deathchest-list", true);
