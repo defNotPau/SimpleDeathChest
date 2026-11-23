@@ -1,25 +1,29 @@
-# Ubersetzung von: bra1nfuck3d
+# Ubersetzung von: bra1nfuck3d mit liebe
 
 list:
-  nonPlayer: "Nur spieler können diesen Befehl nutzen."
+  nonPlayer: "Nur Spieler können diesen Befehl nutzen."
   noDeathchests: "Du hast keine aktive death-chests."
   start: "die gefundenen death-chests sind an:"
   unknown: "unbekkante Halter/Zeit"
   yours: "deine"
-  usage: "nutzung"
+  usage: "Nutzung"
 
 time:
   ago: "vor"
   ago-after: false
+  
+  minute: "Minute"
+  minutes: "Minuten"
 
-  minute: "minute"
-  minutes: "minuten"
+  hour: "Stunde"
+  hours: "Stunden"
 
-  hour: "stunde"
-  hours: "stunden"
+  day: "Tag"
+  days: "Tagen"
 
-  day: "tag"
-  days: "tagen"
+notification:
+  death: "Deine death-chest wurde erstellt bei "
+  empty: "Eine von deine death-chests wurde geleert."
   
 #Wenn sie Zweifel haben, machen sie bitte ein Issue auf GitHub
 # https://github.com/defNotPau/SimpleDeathChest/issues
